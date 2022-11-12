@@ -29,6 +29,7 @@ function Auth() {
               width: "100%",
               minHeight: "100%",
               flexGrow: 1,
+              flexShrink: 0,
             }}
           >
             <div
@@ -39,6 +40,7 @@ function Auth() {
                 minHeight: "100%",
                 flexBasis: "60%",
                 padding: "2rem",
+                flexShrink: 0,
               }}
             >
               <Typography variant="h4">Mentor Space</Typography>
