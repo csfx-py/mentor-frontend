@@ -24,3 +24,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ddd; 
+  border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999; 
+}
+
