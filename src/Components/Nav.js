@@ -47,7 +47,7 @@ function Nav() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -84,7 +84,7 @@ function Nav() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Mentor Space
           </Typography>
 
           <Box sx={{ ml: "auto" }}>
