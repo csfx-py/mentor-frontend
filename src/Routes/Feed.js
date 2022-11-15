@@ -1,15 +1,11 @@
-import { Grid } from "@mui/material";
-import { useSnackbar } from "notistack";
+import { Box, Grid } from "@mui/material";
 import Left from "../Components/Feed/Left";
 import Mid from "../Components/Feed/Mid";
-import Right from "../Components/Feed/Right";
 import Nav from "../Components/Nav";
 
 function Feed() {
-  // eslint-disable-next-line no-unused-vars
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   return (
-    <>
+    <Box>
       <Nav />
       <Grid
         container
@@ -20,9 +16,8 @@ function Feed() {
       >
         <Left />
         <Mid />
-        <Right />
       </Grid>
-    </>
+    </Box>
   );
 }
 
