@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 
-function Post() {
+function Post({ post }) {
   return (
     <Paper
       sx={{
@@ -23,49 +23,36 @@ function Post() {
           fontWeight: "bold",
         }}
       >
-        Name
+        {post?.name || "Anonymous User"}
       </Typography>
       <Typography variant="body1">
-        Description Lorem Ipsum is simply dummy text of the printing and
-        typesetting industry. Lorem Ipsum has been the industry's standard dummy
-        text ever since the 1500s, when an unknown printer took a galley of type
-        and scrambled it to make a type specimen book. It has survived not only
-        five centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
+        {post?.description || "No description provided"}
       </Typography>
       <List>
-        {/* list of files name - download button */}
-        <ListItem>
-          <Typography variant="body1">File Name 1</Typography>
-          <IconButton>
-            <DownloadIcon />
-          </IconButton>
-        </ListItem>
-        <ListItem>
-          <Typography variant="body1">File Name 2</Typography>
-          <IconButton>
-            <DownloadIcon />
-          </IconButton>
-        </ListItem>
-        <ListItem>
-          <Typography variant="body1">File Name 3</Typography>
-          <IconButton>
-            <DownloadIcon />
-          </IconButton>
-        </ListItem>
+        {post?.files &&
+          post?.files.map((file) => (
+            <ListItem key={file._id}>
+              <Typography variant="body1">{file.name}</Typography>
+              <IconButton href={file?.url} rel="noreferrer">
+                <DownloadIcon
+                  sx={{
+                    color: "primary.main",
+                  }}
+                />
+              </IconButton>
+            </ListItem>
+          ))}
       </List>
-      {["tag1", "tag2", "tag3"].map((tag) => (
-        <Chip
-          key={tag}
-          label={tag}
-          sx={{
-            m: 0.5,
-          }}
-        />
-      ))}
+      {post?.tags &&
+        post?.tags.map((tag) => (
+          <Chip
+            key={tag}
+            label={tag}
+            sx={{
+              m: 1,
+            }}
+          />
+        ))}
     </Paper>
   );
 }
