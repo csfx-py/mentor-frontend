@@ -4,8 +4,6 @@ import API from "../Utils/API";
 export const FeedContext = createContext();
 
 export const FeedProvider = ({ children, userData }) => {
-  const [posts, setPosts] = useState([]);
-
   const createPost = async (formData) => {
     try {
       formData.append("user", userData._id);
@@ -24,11 +22,33 @@ export const FeedProvider = ({ children, userData }) => {
     }
   };
 
+  const getPosts = async (tags) => {
+    try {
+      const res = await API.get("/posts/get-all-posts", {
+        params: {
+          tags,
+        },
+      });
+      if (res.data.success) {
+        return { success: true, posts: res.data.posts };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      return {
+        success: false,
+        error: error.response?.data || error,
+        posts: [],
+      };
+    }
+  };
+
   return (
     <FeedContext.Provider
       value={{
-        posts,
         createPost,
+        getPosts,
       }}
     >
       {children}
