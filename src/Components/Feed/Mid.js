@@ -26,7 +26,7 @@ function Mid() {
     <Grid
       item
       xs={12}
-      md={8}
+      md={7}
       sx={{
         height: "calc(100vh - 64px)",
         overflowY: "auto",

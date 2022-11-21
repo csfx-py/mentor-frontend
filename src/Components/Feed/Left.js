@@ -4,7 +4,7 @@ function Left() {
   return (
     <Grid
       item
-      md={4}
+      md={3}
       sx={{
         display: { xs: "none", md: "block" },
       }}
