@@ -1,14 +1,45 @@
+import DownloadIcon from "@mui/icons-material/Download";
 import {
+  Avatar,
+  Button,
   Chip,
   IconButton,
   List,
   ListItem,
   Paper,
+  TextField,
   Typography,
 } from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
+import { Box } from "@mui/system";
+import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
+import AvatarImage from "../../Assets/avatar.png";
+import { FeedContext } from "../../Contexts/FeedContext";
 
 function Post({ post }) {
+  // eslint-disable-next-line no-unused-vars
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const [newComment, setNewComment] = useState("");
+  const [showComments, setShowComments] = useState(false);
+
+  const { addComment } = useContext(FeedContext);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!newComment) {
+      enqueueSnackbar("Comment cannot be empty", { variant: "error" });
+      return;
+    }
+    const res = await addComment(post._id, newComment);
+    if (res.success) {
+      setNewComment("");
+      enqueueSnackbar("Comment added successfully", { variant: "success" });
+    } else {
+      enqueueSnackbar(res.error, { variant: "error" });
+    }
+  };
+
   return (
     <Paper
       sx={{
@@ -53,6 +84,95 @@ function Post({ post }) {
             }}
           />
         ))}
+      <Box
+        sx={{
+          my: 2,
+          p: 1,
+        }}
+      >
+        {showComments
+          ? post?.comments && (
+              <>
+                <Typography
+                  variant="outlined"
+                  onClick={() => setShowComments(false)}
+                  gutterBottom
+                  sx={{
+                    cursor: "pointer",
+                    color: "primary.main",
+                  }}
+                >
+                  Hide Comments
+                </Typography>
+                {post?.comments?.map((comment, index) => (
+                  <div key={index}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        borderTop: "1px solid #ccc",
+                        padding: 1,
+                      }}
+                    >
+                      <Avatar
+                        src={comment?.avatar || AvatarImage}
+                        sx={{
+                          width: 30,
+                          height: 30,
+                          m: 1,
+                        }}
+                      />
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {comment?.name || "Anonymous User"}
+                      </Typography>
+                    </div>
+                    <Typography variant="body1" sx={{ ml: 6 }}>
+                      {comment?.text || "No comment data"}
+                    </Typography>
+                  </div>
+                ))}
+              </>
+            )
+          : post?.comments?.length > 0 && (
+              <Typography
+                variant="outlined"
+                onClick={() => setShowComments(true)}
+                gutterBottom
+                sx={{
+                  cursor: "pointer",
+                  color: "primary.main",
+                }}
+              >
+                Show Comments
+              </Typography>
+            )}
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Add a comment"
+            variant="outlined"
+            fullWidth
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            sx={{
+              mt: 1,
+            }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              mt: 1,
+            }}
+          >
+            Add Comment
+          </Button>
+        </form>
+      </Box>
     </Paper>
   );
 }
