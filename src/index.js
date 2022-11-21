@@ -5,14 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./Contexts/UserContext";
 import { SnackbarProvider } from "notistack";
+import { LoadingProvider } from "./Contexts/LoadingContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <SnackbarProvider maxSnack={3}>
-      <UserProvider>
-        <App />
-      </UserProvider>
+      <LoadingProvider>
+        <UserProvider>
+          <App />
+        </UserProvider>
+      </LoadingProvider>
     </SnackbarProvider>
   </React.StrictMode>
 );
