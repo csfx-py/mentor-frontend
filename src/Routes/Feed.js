@@ -13,6 +13,7 @@ function Feed() {
         sx={{
           p: 1,
         }}
+        justifyContent="center"
       >
         <Left />
         <Mid />

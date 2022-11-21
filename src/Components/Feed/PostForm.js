@@ -61,10 +61,13 @@ function PostForm() {
   };
 
   const validate = () => {
-    if (description.length === 0 && files.length === 0) {
-      enqueueSnackbar("Please add some description and files with tags", {
-        variant: "info",
-      });
+    if (description.length === 0 && tags.length === 0) {
+      enqueueSnackbar(
+        "Please add some description with tags and optionally some files ",
+        {
+          variant: "info",
+        }
+      );
       return false;
     }
     return true;
