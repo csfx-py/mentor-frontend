@@ -1,13 +1,13 @@
-import { Typography } from "@mui/material";
 import { useContext } from "react";
 import {
   BrowserRouter as Router,
   Navigate,
   Route,
-  Routes,
+  Routes
 } from "react-router-dom";
 import "./App.css";
 import Err404 from "./Assets/404.jpeg";
+import ComponentWithNav from "./Components/ComponentWithNav";
 import Loading from "./Components/Loading";
 import { FeedProvider } from "./Contexts/FeedContext";
 import { LoadingContext } from "./Contexts/LoadingContext";
@@ -37,40 +37,29 @@ function App() {
             />
             <Route
               path="/feed"
-              element={user ? <Feed /> : <Navigate to="/auth" />}
+              element={
+                user ? (
+                  <ComponentWithNav>
+                    <Feed />
+                  </ComponentWithNav>
+                ) : (
+                  <Navigate to="/auth" />
+                )
+              }
             />
             <Route
               path="/profile"
-              element={user ? <Profile /> : <Navigate to="/auth" />}
-            />
-            <Route
-              path="*"
               element={
-                <div
-                  style={{
-                    height: "100vh",
-                    background:
-                      "linear-gradient(135deg, #FFEB3B 0%, #ffffff 100%)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                  }}
-                >
-                  <img
-                    src={Err404}
-                    alt="404"
-                    style={{
-                      maxHeight: "100vh",
-                      minHeight: "40vh",
-                    }}
-                  />
-                  <Typography variant="h4" align="center">
-                    404 - Page Not Found
-                  </Typography>
-                </div>
+                user ? (
+                  <ComponentWithNav>
+                    <Profile />
+                  </ComponentWithNav>
+                ) : (
+                  <Navigate to="/auth" />
+                )
               }
             />
+            <Route path="*" element={<Err404 />} />
           </Routes>
         </FeedProvider>
       </Router>
