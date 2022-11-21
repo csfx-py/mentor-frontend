@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./Contexts/UserContext";
 import { SnackbarProvider } from "notistack";
 import { LoadingProvider } from "./Contexts/LoadingContext";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,7 +14,9 @@ root.render(
     <SnackbarProvider maxSnack={3}>
       <LoadingProvider>
         <UserProvider>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </UserProvider>
       </LoadingProvider>
     </SnackbarProvider>
