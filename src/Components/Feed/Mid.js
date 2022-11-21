@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import { FeedContext } from "../../Contexts/FeedContext";
 import { UserContext } from "../../Contexts/UserContext";
@@ -37,6 +37,16 @@ function Mid() {
         {feedPosts &&
           feedPosts.map((post) => <Post key={post._id} post={post} />)}
       </Grid>
+      <Typography
+        variant="h6"
+        sx={{
+          textAlign: "center",
+          mt: 2,
+          color: "text.secondary",
+        }}
+      >
+        No more posts in the feed, try following more tags
+      </Typography>
     </Grid>
   );
 }
