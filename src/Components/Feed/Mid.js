@@ -1,28 +1,26 @@
 import { Grid } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { FeedContext } from "../../Contexts/FeedContext";
 import { UserContext } from "../../Contexts/UserContext";
 import Post from "./Post";
 import PostForm from "./PostForm";
 
 function Mid() {
-  const [posts, setPosts] = useState(null);
-  const { user.tags } = useContext(UserContext);
-  const { getPosts } = useContext(FeedContext);
+  const { userData } = useContext(UserContext);
+  const { getPosts, feedPosts } = useContext(FeedContext);
 
   useEffect(() => {
-    getPosts()
+    getPosts(userData?.followingTags || [])
       .then((res) => {
-        if (res.success) {
-          setPosts(res.posts);
-        } else {
+        if (!res.success) {
           console.log(res.error);
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [getPosts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData?.followingTags]);
 
   return (
     <Grid
@@ -36,7 +34,8 @@ function Mid() {
     >
       <Grid container direction={"column"}>
         <PostForm />
-        {posts && posts.map((post) => <Post key={post._id} post={post} />)}
+        {feedPosts &&
+          feedPosts.map((post) => <Post key={post._id} post={post} />)}
       </Grid>
     </Grid>
   );
