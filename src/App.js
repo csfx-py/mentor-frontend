@@ -1,26 +1,32 @@
 import { Typography } from "@mui/material";
-import { useSnackbar } from "notistack";
 import { useContext } from "react";
 import {
   BrowserRouter as Router,
   Navigate,
   Route,
-  Routes
+  Routes,
 } from "react-router-dom";
 import "./App.css";
 import Err404 from "./Assets/404.jpeg";
+import Loading from "./Components/Loading";
 import { FeedProvider } from "./Contexts/FeedContext";
+import { LoadingContext } from "./Contexts/LoadingContext";
 import { UserContext } from "./Contexts/UserContext";
 import Auth from "./Routes/Auth";
 import Feed from "./Routes/Feed";
+import Profile from "./Routes/Profile";
 
 function App() {
-  const { user, userData } = useContext(UserContext);
   // eslint-disable-next-line no-unused-vars
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { loading, setLoading } = useContext(LoadingContext);
+  const { user, userData } = useContext(UserContext);
 
   return (
     <div className="App">
+      {loading && (
+        // loading screen absolute position
+        <Loading />
+      )}
       <Router>
         <FeedProvider userData={userData}>
           <Routes>
@@ -32,6 +38,10 @@ function App() {
             <Route
               path="/feed"
               element={user ? <Feed /> : <Navigate to="/auth" />}
+            />
+            <Route
+              path="/profile"
+              element={user ? <Profile /> : <Navigate to="/auth" />}
             />
             <Route
               path="*"
