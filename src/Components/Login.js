@@ -1,9 +1,9 @@
-import { Button, TextField, Typography } from "@mui/material";
 import { Lock } from "@mui/icons-material";
-import { useContext, useState } from "react";
-import { UserContext } from "../Contexts/UserContext";
+import { Button, TextField, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../Contexts/UserContext";
 
 function Login({ setIsRegistered }) {
   const { login } = useContext(UserContext);
@@ -96,7 +96,7 @@ function Login({ setIsRegistered }) {
         placeholder="Password"
         sx={{ width: "100%", maxWidth: 300, my: 1 }}
         name="password"
-        type="text"
+        type="password"
         value={data.password}
         onChange={handleChange}
         error={

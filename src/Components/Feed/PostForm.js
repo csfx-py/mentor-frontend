@@ -12,6 +12,7 @@ import {
 import { useSnackbar } from "notistack";
 import { useContext, useState } from "react";
 import { FeedContext } from "../../Contexts/FeedContext";
+import { LoadingContext } from "../../Contexts/LoadingContext";
 
 const draggedStyle = {
   border: "2px dashed #000",
@@ -22,11 +23,10 @@ function PostForm() {
   const [files, setFiles] = useState([]);
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
-  const [tagOptions, setTagOptions] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [dragging, setDragging] = useState(false);
 
   const { createPost } = useContext(FeedContext);
+  const { setLoading } = useContext(LoadingContext);
 
   // eslint-disable-next-line no-unused-vars
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();

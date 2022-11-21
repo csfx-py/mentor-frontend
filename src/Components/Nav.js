@@ -8,7 +8,7 @@ import {
   MenuItem,
   Toolbar,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +47,9 @@ function Nav() {
   };
 
   return (
-    <AppBar component="nav" position="sticky">
+    <AppBar component="nav" position="sticky" sx={{
+      zIndex: 99
+    }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography

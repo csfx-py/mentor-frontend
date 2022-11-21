@@ -27,7 +27,6 @@ export const UserProvider = ({ children }) => {
       API.get("/auth/user")
         .then((res) => {
           if (res.data.success) {
-            console.log(res.data.user);
             setUserData(res.data.user);
           } else {
             setUserData(null);

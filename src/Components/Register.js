@@ -1,9 +1,9 @@
 import Lock from "@mui/icons-material/Lock";
 import { Button, TextField, Typography } from "@mui/material";
-import { useContext, useState } from "react";
-import { UserContext } from "../Contexts/UserContext";
 import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../Contexts/UserContext";
 
 function Register({ setIsRegistered }) {
   const { register } = useContext(UserContext);
@@ -114,7 +114,7 @@ function Register({ setIsRegistered }) {
         placeholder="Password"
         sx={{ width: "100%", maxWidth: 300, my: 1 }}
         name="password"
-        type="text"
+        type="password"
         value={data.password}
         onChange={handleChange}
         error={
@@ -136,7 +136,7 @@ function Register({ setIsRegistered }) {
         placeholder="Confirm Password"
         sx={{ width: "100%", maxWidth: 300, my: 1 }}
         name="confirmPassword"
-        type="text"
+        type="password"
         value={data.confirmPassword}
         onChange={handleChange}
         error={data.password !== data.confirmPassword}
