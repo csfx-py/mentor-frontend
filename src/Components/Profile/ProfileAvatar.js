@@ -1,14 +1,49 @@
+import DeleteForever from "@mui/icons-material/DeleteForever";
 import Edit from "@mui/icons-material/Edit";
+import FileUpload from "@mui/icons-material/FileUpload";
 import { Button, Grid, Typography } from "@mui/material";
-import { useState } from "react";
-import AvatarImage from "../../Assets/avatar.png";
+import { useContext, useState } from "react";
+import AvatarImage from "../../Assets/puneet_avatar.jpeg";
+import { UserContext } from "../../Contexts/UserContext";
+import { useSnackbar } from "notistack";
 
 function ProfileAvatar() {
+  const { userData, updateAvatar } = useContext(UserContext);
+  // eslint-disable-next-line no-unused-vars
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   const [hoveringAvatar, setHoveringAvatar] = useState(false);
   const [newAvatarFile, setNewAvatarFile] = useState(null);
 
   const handleFileChange = async (e) => {
     setNewAvatarFile(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!newAvatarFile) {
+      enqueueSnackbar("Please select a file to upload", { variant: "error" });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("avatar", newAvatarFile);
+    console.log(formData);
+
+    const res = await updateAvatar(formData);
+
+    if (res.success) {
+      setNewAvatarFile(null);
+      enqueueSnackbar("Avatar updated successfully", {
+        variant: "success",
+      });
+    } else {
+      enqueueSnackbar("Error updating avatar", {
+        variant: "error",
+      });
+    }
   };
 
   return (
@@ -59,7 +94,11 @@ function ProfileAvatar() {
           <Edit /> Edit Avatar
         </label>
         <img
-          src={AvatarImage}
+          src={
+            newAvatarFile
+              ? URL.createObjectURL(newAvatarFile)
+              : userData?.avatar || AvatarImage
+          }
           alt="profile avatar"
           style={{
             height: "400px",
@@ -71,17 +110,34 @@ function ProfileAvatar() {
         />
       </div>
       {newAvatarFile && (
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{
-            mt: 1,
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "1rem",
+            gap: "1rem",
           }}
-          onClick={() => console.log("save avatar")}
         >
-          Upload
-        </Button>
+          <Button
+            variant="contained"
+            color="error"
+            fullWidth
+            onClick={(e) => {
+              setNewAvatarFile(null);
+            }}
+          >
+            <DeleteForever /> Delete
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            fullWidth
+            onClick={handleSubmit}
+          >
+            <FileUpload /> Upload
+          </Button>
+        </div>
       )}
     </Grid>
   );
