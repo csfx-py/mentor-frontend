@@ -25,7 +25,7 @@ function PostForm() {
   const [tags, setTags] = useState([]);
   const [dragging, setDragging] = useState(false);
 
-  const { createPost } = useContext(FeedContext);
+  const { createPost, tagOptions } = useContext(FeedContext);
   const { setLoading } = useContext(LoadingContext);
 
   // eslint-disable-next-line no-unused-vars
@@ -61,7 +61,7 @@ function PostForm() {
   };
 
   const validate = () => {
-    if (description.length === 0 && tags.length === 0) {
+    if (description.length === 0 || tags.length === 0) {
       enqueueSnackbar(
         "Please add some description with tags and optionally some files ",
         {
@@ -93,8 +93,6 @@ function PostForm() {
     files.forEach((file) => {
       formData.append("files", file);
     });
-
-    // log
 
     const res = await createPost(formData);
 
@@ -202,7 +200,7 @@ function PostForm() {
             }}
             multiple
             id="tags-outlined"
-            options={["tag1", "tag2", "tag3"]}
+            options={tagOptions}
             filterSelectedOptions
             renderInput={(params) => (
               <TextField {...params} label="Tags" placeholder="Tags" />
