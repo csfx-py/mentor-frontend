@@ -77,7 +77,7 @@ function Register({ setIsRegistered }) {
       }}
     >
       <Typography variant="h6">
-        <Lock sx={{ mr: 1 }} />
+        <Lock sx={{ mr: 1 }} verticalAlign="middle" />
         Register
       </Typography>
       <TextField

@@ -1,5 +1,7 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import { useState } from "react";
+import OnBoard from "../Assets/onboard.svg";
+import BG from "../Assets/waveBG.png";
 import Login from "../Components/Login";
 import Register from "../Components/Register";
 
@@ -9,61 +11,75 @@ function Auth() {
     <>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
           height: "100vh",
+          // background: "#1B2430",
+          backgroundImage: { xs: `url(${BG})` },
+          backgroundSize: "cover",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          p: { xs: 0, md: 40 },
         }}
       >
-        <Paper
-          elevation={3}
+        <Grid
+          container
+          spacing={4}
           sx={{
-            minHeight: "50vh",
-            minWidth: "70vh",
-            display: "flex",
+            p: { xs: 2, md: 6 },
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            // background: "rgba(255, 255, 255, 0.6)",
+            // backdropFilter: "blur(15px)",
+            // borderRadius: "20px",
+            // boxShadow: "0 10px 32px 0 rgba(31, 38, 135, 0.37)",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              minHeight: "100%",
-              flexGrow: 1,
-              flexShrink: 0,
+          <Grid
+            item
+            md={6}
+            sx={{
+              display: { xs: "none", lg: "flex" },
+              justifyContent: "center",
+              alignItems: "center",
+              p: "0 !important",
             }}
           >
-            <div
+            <img
+              src={OnBoard}
+              alt="wave"
               style={{
-                background: "linear-gradient(135deg, #FFEB3B 0%, #ffffff 100%)",
-                borderRight: "1px solid #ccc",
-                borderRadius: 2,
-                minHeight: "100%",
-                flexBasis: "60%",
-                padding: "2rem",
-                flexShrink: 0,
+                maxWidth: "90%",
               }}
+            />
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              minWidth: { xs: "100%", md: "400px" },
+            }}
+          >
+            <Paper
+              elevation={3}
+              sx={{ p: 4, py: 20, width: "100%", height: "100%" }}
             >
-              <Typography variant="h4">Mentor Space</Typography>
-              <Typography variant="h6">
-                {isRegistered ? `Login` : `Register`}
+              <Typography variant="h4" align="center">
+                Mentor Space
               </Typography>
-            </div>
-            <div
-              style={{
-                borderRadius: 2,
-                minHeight: "100%",
-                padding: "2rem",
-                flexGrow: 1,
-              }}
-            >
               {isRegistered ? (
                 <Login setIsRegistered={setIsRegistered} />
               ) : (
                 <Register setIsRegistered={setIsRegistered} />
               )}
-            </div>
-          </div>
-        </Paper>
+            </Paper>
+          </Grid>
+        </Grid>
       </Box>
     </>
   );
