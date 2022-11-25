@@ -1,9 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import API from "../Utils/API";
+import { LoadingContext } from "./LoadingContext";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
+  const { setLoading } = useContext(LoadingContext);
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
 
@@ -24,7 +26,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      API.get("/auth/user")
+      API.get("/user/user")
         .then((res) => {
           if (res.data.success) {
             setUserData(res.data.user);
@@ -85,6 +87,30 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const updateAvatar = async (formData) => {
+    try {
+      setLoading(true);
+      formData.append("user", userData._id);
+      const res = await API.post("/user/avatar", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(res.data);
+      if (res.data.success) {
+        setUserData(res.data.user);
+        setLoading(false);
+        return { success: true };
+      } else {
+        setLoading(false);
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      setLoading(false);
+      return { success: false, error: error.response?.data || error };
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -93,6 +119,7 @@ export const UserProvider = ({ children }) => {
         login,
         register,
         logout,
+        updateAvatar,
       }}
     >
       {children}
