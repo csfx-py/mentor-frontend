@@ -1,8 +1,10 @@
+import { DeleteForever } from "@mui/icons-material";
 import DownloadIcon from "@mui/icons-material/Download";
 import {
   Avatar,
   Button,
   Chip,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -13,17 +15,19 @@ import {
 import { Box } from "@mui/system";
 import { useSnackbar } from "notistack";
 import { useContext, useState } from "react";
-import AvatarImage from "../../Assets/avatar.png";
+import AvatarImage from "../../Assets/puneet_avatar.jpeg";
 import { FeedContext } from "../../Contexts/FeedContext";
+import { UserContext } from "../../Contexts/UserContext";
 
 function Post({ post }) {
   // eslint-disable-next-line no-unused-vars
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { userData } = useContext(UserContext);
 
   const [newComment, setNewComment] = useState("");
   const [showComments, setShowComments] = useState(false);
 
-  const { addComment } = useContext(FeedContext);
+  const { addComment, deletePost } = useContext(FeedContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +44,18 @@ function Post({ post }) {
     }
   };
 
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    const res = await deletePost(post._id);
+
+    console.log(res);
+    if (res.success) {
+      enqueueSnackbar("Post deleted successfully", { variant: "success" });
+    } else {
+      enqueueSnackbar(res.error, { variant: "error" });
+    }
+  };
+
   return (
     <Paper
       sx={{
@@ -48,14 +64,21 @@ function Post({ post }) {
       }}
       elevation={3}
     >
-      <Typography
-        variant="h6"
-        sx={{
-          fontWeight: "bold",
-        }}
-      >
-        {post?.name || "Anonymous User"}
-      </Typography>
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: "bold",
+          }}
+        >
+          {post?.name || "Anonymous User"}
+        </Typography>
+        {userData?._id === post?.user && (
+          <IconButton onClick={handleDelete}>
+            <DeleteForever /> <Typography variant="body2">Delete</Typography>
+          </IconButton>
+        )}
+      </Grid>
       <Typography variant="body1">
         {post?.description || "No description provided"}
       </Typography>
