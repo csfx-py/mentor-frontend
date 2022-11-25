@@ -8,11 +8,11 @@ import {
   MenuItem,
   Toolbar,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AvatarImage from "../Assets/avatar.png";
+import AvatarImage from "../Assets/puneet_avatar.jpeg";
 import { UserContext } from "../Contexts/UserContext";
 
 function Nav() {
@@ -47,16 +47,20 @@ function Nav() {
   };
 
   return (
-    <AppBar component="nav" position="sticky" sx={{
-      zIndex: 99
-    }}>
+    <AppBar
+      component="nav"
+      position="sticky"
+      sx={{
+        zIndex: 99,
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href={userData ? "/feed" : "/"}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -74,7 +78,7 @@ function Nav() {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href={userData ? "/feed" : "/"}
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -94,7 +98,7 @@ function Nav() {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
                   alt="Remy Sharp"
-                  src={userData?.profilePicture || AvatarImage}
+                  src={userData?.avatar || AvatarImage}
                 />
               </IconButton>
             </Tooltip>
