@@ -1,12 +1,12 @@
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { UserProvider } from "./Contexts/UserContext";
-import { SnackbarProvider } from "notistack";
-import { LoadingProvider } from "./Contexts/LoadingContext";
 import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import { LoadingProvider } from "./Contexts/LoadingContext";
+import { UserProvider } from "./Contexts/UserContext";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
