@@ -3,9 +3,7 @@ import "../loading.css";
 
 function Loading() {
   return (
-    <div
-      className="backdrop"
-    >
+    <div className="backdrop">
       <HideSourceIcon className="spin" />
     </div>
   );

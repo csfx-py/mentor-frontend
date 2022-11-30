@@ -48,7 +48,6 @@ function Post({ post }) {
     e.preventDefault();
     const res = await deletePost(post._id);
 
-    console.log(res);
     if (res.success) {
       enqueueSnackbar("Post deleted successfully", { variant: "success" });
     } else {

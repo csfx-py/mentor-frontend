@@ -64,7 +64,7 @@ function Nav() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "cursive",
+              fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
