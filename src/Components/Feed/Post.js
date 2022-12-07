@@ -10,7 +10,7 @@ import {
   ListItem,
   Paper,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSnackbar } from "notistack";
@@ -18,6 +18,7 @@ import { useContext, useState } from "react";
 import AvatarImage from "../../Assets/puneet_avatar.jpeg";
 import { FeedContext } from "../../Contexts/FeedContext";
 import { UserContext } from "../../Contexts/UserContext";
+import Comments from "./Comments";
 
 function Post({ post }) {
   // eslint-disable-next-line no-unused-vars
@@ -25,7 +26,6 @@ function Post({ post }) {
   const { userData } = useContext(UserContext);
 
   const [newComment, setNewComment] = useState("");
-  const [showComments, setShowComments] = useState(false);
 
   const { addComment, deletePost } = useContext(FeedContext);
 
@@ -46,6 +46,10 @@ function Post({ post }) {
 
   const handleDelete = async (e) => {
     e.preventDefault();
+
+    // confirm delete
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+
     const res = await deletePost(post._id);
 
     if (res.success) {
@@ -64,14 +68,29 @@ function Post({ post }) {
       elevation={3}
     >
       <Grid container justifyContent="space-between" alignItems="center">
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: "bold",
-          }}
-        >
-          {post?.name || "Anonymous User"}
-        </Typography>
+        <Grid item>
+          <Grid container alignItems="center">
+            <Avatar src={post.avatar || AvatarImage} sx={{ mr: 1 }} />
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: "bold",
+              }}
+            >
+              {post?.name || "Anonymous User"}
+            </Typography>
+          </Grid>
+          {post?.tags &&
+            post?.tags.map((tag) => (
+              <Chip
+                key={tag}
+                label={tag}
+                sx={{
+                  m: 1,
+                }}
+              />
+            ))}
+        </Grid>
         {userData?._id === post?.user && (
           <IconButton onClick={handleDelete}>
             <DeleteForever /> <Typography variant="body2">Delete</Typography>
@@ -81,98 +100,39 @@ function Post({ post }) {
       <Typography variant="body1">
         {post?.description || "No description provided"}
       </Typography>
-      <List>
+      <List
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          p: 0,
+          m: 0,
+        }}
+      >
         {post?.files &&
           post?.files.map((file) => (
-            <ListItem key={file._id}>
-              <Typography variant="body1">{file.name}</Typography>
+            <ListItem
+              key={file._id}
+              sx={{
+                listStyle: "none",
+                p: 0,
+                m: 0,
+              }}
+            >
+              <Typography variant="body2">{file?.name}</Typography>
               <IconButton href={file?.url} rel="noreferrer">
-                <DownloadIcon
-                  sx={{
-                    color: "primary.main",
-                  }}
-                />
+                <DownloadIcon color="primary" />
               </IconButton>
             </ListItem>
           ))}
       </List>
-      {post?.tags &&
-        post?.tags.map((tag) => (
-          <Chip
-            key={tag}
-            label={tag}
-            sx={{
-              m: 1,
-            }}
-          />
-        ))}
       <Box
         sx={{
           my: 2,
           p: 1,
         }}
       >
-        {showComments
-          ? post?.comments && (
-              <>
-                <Typography
-                  variant="outlined"
-                  onClick={() => setShowComments(false)}
-                  gutterBottom
-                  sx={{
-                    cursor: "pointer",
-                    color: "primary.main",
-                  }}
-                >
-                  Hide Comments
-                </Typography>
-                {post?.comments?.map((comment, index) => (
-                  <div key={index}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        borderTop: "1px solid #ccc",
-                        padding: 1,
-                      }}
-                    >
-                      <Avatar
-                        src={comment?.avatar || AvatarImage}
-                        sx={{
-                          width: 30,
-                          height: 30,
-                          m: 1,
-                        }}
-                      />
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {comment?.name || "Anonymous User"}
-                      </Typography>
-                    </div>
-                    <Typography variant="body1" sx={{ ml: 6 }}>
-                      {comment?.text || "No comment data"}
-                    </Typography>
-                  </div>
-                ))}
-              </>
-            )
-          : post?.comments?.length > 0 && (
-              <Typography
-                variant="outlined"
-                onClick={() => setShowComments(true)}
-                gutterBottom
-                sx={{
-                  cursor: "pointer",
-                  color: "primary.main",
-                }}
-              >
-                Show Comments
-              </Typography>
-            )}
+        <Comments comments={post?.comments} />
         <form onSubmit={handleSubmit}>
           <TextField
             label="Add a comment"
