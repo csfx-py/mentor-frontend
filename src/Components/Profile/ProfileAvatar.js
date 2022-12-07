@@ -2,10 +2,10 @@ import DeleteForever from "@mui/icons-material/DeleteForever";
 import Edit from "@mui/icons-material/Edit";
 import FileUpload from "@mui/icons-material/FileUpload";
 import { Button, Grid, Typography } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { useContext, useState } from "react";
 import AvatarImage from "../../Assets/puneet_avatar.jpeg";
 import { UserContext } from "../../Contexts/UserContext";
-import { useSnackbar } from "notistack";
 
 function ProfileAvatar() {
   const { userData, updateAvatar } = useContext(UserContext);

@@ -8,7 +8,7 @@ import {
   MenuItem,
   Toolbar,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";

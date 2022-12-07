@@ -12,7 +12,6 @@ function Auth() {
       <Box
         sx={{
           height: "100vh",
-          // background: "#1B2430",
           backgroundImage: { xs: `url(${BG})` },
           backgroundSize: "cover",
           display: "flex",
@@ -28,10 +27,6 @@ function Auth() {
             p: { xs: 2, md: 6 },
             justifyContent: "space-evenly",
             alignItems: "center",
-            // background: "rgba(255, 255, 255, 0.6)",
-            // backdropFilter: "blur(15px)",
-            // borderRadius: "20px",
-            // boxShadow: "0 10px 32px 0 rgba(31, 38, 135, 0.37)",
           }}
         >
           <Grid

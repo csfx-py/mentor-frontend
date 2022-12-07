@@ -7,7 +7,7 @@ import {
   List,
   Paper,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useContext, useState } from "react";
@@ -61,7 +61,7 @@ function PostForm() {
   };
 
   const validate = () => {
-    if (description.length === 0 || tags.length === 0) {
+    if (description?.length === 0 || tags?.length === 0) {
       enqueueSnackbar(
         "Please add some description with tags and optionally some files ",
         {
