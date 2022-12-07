@@ -12,7 +12,7 @@ function Feed() {
       }}
       justifyContent="center"
     >
-      <Left />
+      {/* <Left /> */}
       <Mid />
     </Grid>
   );

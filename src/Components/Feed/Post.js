@@ -10,7 +10,7 @@ import {
   ListItem,
   Paper,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSnackbar } from "notistack";
@@ -132,7 +132,7 @@ function Post({ post }) {
           p: 1,
         }}
       >
-        <Comments comments={post?.comments} />
+        <Comments comments={post?.comments} postID={post?._id} />
         <form onSubmit={handleSubmit}>
           <TextField
             label="Add a comment"

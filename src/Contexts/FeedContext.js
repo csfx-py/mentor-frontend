@@ -131,6 +131,52 @@ export const FeedProvider = ({ children, userData }) => {
     }
   };
 
+  const deleteComment = async (postId, commentId) => {
+    try {
+      setLoading(true);
+      const res = await API.delete(`/posts/delete-comment`, {
+        data: {
+          postId,
+          commentId,
+        },
+      });
+      if (res.data.success) {
+        getPosts(userData?.followingTags || []);
+        setLoading(false);
+        return { success: true };
+      } else {
+        setLoading(false);
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      setLoading(false);
+      return { success: false, error: error.response?.data || error };
+    }
+  };
+
+  const searchPosts = async (query) => {
+    try {
+      setLoading(true);
+      const res = await API.get(`/posts/search`, {
+        params: {
+          query,
+        },
+      });
+
+      if (res.data.success) {
+        setFeedPosts(res.data.posts || []);
+        setLoading(false);
+        return { success: true };
+      } else {
+        setLoading(false);
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      setLoading(false);
+      return { success: false, error: error.response?.data || error };
+    }
+  };
+
   return (
     <FeedContext.Provider
       value={{
@@ -138,6 +184,8 @@ export const FeedProvider = ({ children, userData }) => {
         deletePost,
         getPosts,
         addComment,
+        deleteComment,
+        searchPosts,
         feedPosts,
         setFeedPosts,
         tagOptions: tags,
