@@ -10,6 +10,7 @@ import { UserContext } from "./Contexts/UserContext";
 import Auth from "./Routes/Auth";
 import Feed from "./Routes/Feed";
 import Profile from "./Routes/Profile";
+import Search from "./Routes/Search";
 
 function App() {
   const { loading } = useContext(LoadingContext);
@@ -37,6 +38,18 @@ function App() {
               user ? (
                 <ComponentWithNav>
                   <Feed />
+                </ComponentWithNav>
+              ) : (
+                <Navigate to="/auth" state={pathname} />
+              )
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              user ? (
+                <ComponentWithNav>
+                  <Search />
                 </ComponentWithNav>
               ) : (
                 <Navigate to="/auth" state={pathname} />
