@@ -1,10 +1,35 @@
-import { Avatar, Typography } from "@mui/material";
-import { useState } from "react";
+import { DeleteForever } from "@mui/icons-material";
+import { Avatar, IconButton, Typography } from "@mui/material";
+import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
 import AvatarImage from "../../Assets/puneet_avatar.jpeg";
+import { FeedContext } from "../../Contexts/FeedContext";
+import { UserContext } from "../../Contexts/UserContext";
 
-export default function Comments({ comments = [] }) {
+export default function Comments({ postID, comments = [] }) {
+  // eslint-disable-next-line no-unused-vars
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   const [showAllComments, setShowAllComments] = useState(false);
+
+  const { userData } = useContext(UserContext);
+  const { deleteComment } = useContext(FeedContext);
+
+  const handleDelete = async (e, commentID) => {
+    if (!window.confirm("Are you sure you want to delete this comment?"))
+      return;
+
+    const res = await deleteComment(postID, commentID);
+
+    if (res.success) {
+      enqueueSnackbar("Comment deleted successfully", { variant: "success" });
+    } else {
+      enqueueSnackbar(res.error, { variant: "error" });
+    }
+  };
+
   if (comments.length === 0) return null;
+
   if (comments.length <= 5) {
     return (
       <>
@@ -35,9 +60,39 @@ export default function Comments({ comments = [] }) {
                 {comment?.name || "Anonymous User"}
               </Typography>
             </div>
-            <Typography variant="body1" sx={{ ml: 6 }}>
-              {comment?.text || "No comment data"}
-            </Typography>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: 1,
+              }}
+            >
+              <Typography variant="body1" sx={{ ml: 6 }}>
+                {comment?.text || "No comment data"}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  ml: 1,
+                }}
+              >
+                {
+                  // check if date is today or yesterday or older and display accordingly
+                  new Date(comment?.date).toLocaleDateString() ===
+                  new Date().toLocaleDateString()
+                    ? `Today at ${new Date(comment?.date).toLocaleTimeString()}`
+                    : new Date(comment?.date).toLocaleDateString() ===
+                      new Date(
+                        new Date().setDate(new Date().getDate() - 1)
+                      ).toLocaleDateString()
+                    ? `Yesterday at ${new Date(
+                        comment?.date
+                      ).toLocaleTimeString()}`
+                    : new Date(comment?.date).toLocaleDateString()
+                }
+              </Typography>
+            </div>
           </div>
         ))}
       </>
@@ -52,26 +107,42 @@ export default function Comments({ comments = [] }) {
                 style={{
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: "space-between",
                   borderTop: "1px solid #ccc",
                   padding: 1,
                 }}
               >
-                <Avatar
-                  src={comment?.avatar || AvatarImage}
-                  sx={{
-                    width: 30,
-                    height: 30,
-                    m: 1,
-                  }}
-                />
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: "bold",
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    borderTop: "1px solid #ccc",
+                    padding: 1,
                   }}
                 >
-                  {comment?.name || "Anonymous User"}
-                </Typography>
+                  <Avatar
+                    src={comment?.avatar || AvatarImage}
+                    sx={{
+                      width: 30,
+                      height: 30,
+                      m: 1,
+                    }}
+                  />
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {comment?.name || "Anonymous User"}
+                  </Typography>
+                </div>
+                {userData?._id === comment?.user && (
+                  <IconButton onClick={(e) => handleDelete(e, comment?._id)}>
+                    <DeleteForever />
+                    <Typography variant="body2">Delete</Typography>
+                  </IconButton>
+                )}
               </div>
               <Typography variant="body1" sx={{ ml: 6 }}>
                 {comment?.text || "No comment data"}
@@ -84,26 +155,42 @@ export default function Comments({ comments = [] }) {
                 style={{
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: "space-between",
                   borderTop: "1px solid #ccc",
                   padding: 1,
                 }}
               >
-                <Avatar
-                  src={comment?.avatar || AvatarImage}
-                  sx={{
-                    width: 30,
-                    height: 30,
-                    m: 1,
-                  }}
-                />
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: "bold",
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    borderTop: "1px solid #ccc",
+                    padding: 1,
                   }}
                 >
-                  {comment?.name || "Anonymous User"}
-                </Typography>
+                  <Avatar
+                    src={comment?.avatar || AvatarImage}
+                    sx={{
+                      width: 30,
+                      height: 30,
+                      m: 1,
+                    }}
+                  />
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {comment?.name || "Anonymous User"}
+                  </Typography>
+                </div>
+                {userData?._id === comment?.user && (
+                  <IconButton onClick={(e) => handleDelete(e, comment?._id)}>
+                    <DeleteForever />
+                    <Typography variant="body2">Delete</Typography>
+                  </IconButton>
+                )}
               </div>
               <Typography variant="body1" sx={{ ml: 6 }} gutterBottom>
                 {comment?.text || "No comment data"}
