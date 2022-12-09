@@ -9,7 +9,7 @@ export const FeedProvider = ({ children, userData }) => {
   const [feedPosts, setFeedPosts] = useState(null);
 
   // eslint-disable-next-line no-unused-vars
-  const [tags, setTags] = useState(null);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     setLoading(true);

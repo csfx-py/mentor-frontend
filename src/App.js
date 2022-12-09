@@ -1,19 +1,19 @@
-import { useContext } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import './App.css';
-import ComponentWithNav from './Components/ComponentWithNav';
-import Err404 from './Components/Err404';
-import Loading from './Components/Loading';
-import { FeedProvider } from './Contexts/FeedContext';
-import { LoadingContext } from './Contexts/LoadingContext';
-import { UserContext } from './Contexts/UserContext';
-import Auth from './Routes/Auth';
-import Feed from './Routes/Feed';
-import Profile from './Routes/Profile';
-import Search from './Routes/Search';
-import Landing from './Components/Landing';
-import { ThemeProvider } from '@mui/material/styles';
-import { mentorTheme } from './Theme';
+import { ThemeProvider } from "@mui/material/styles";
+import { useContext } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import "./App.css";
+import ComponentWithNav from "./Components/ComponentWithNav";
+import Err404 from "./Routes/Err404";
+import Loading from "./Components/Loading";
+import { FeedProvider } from "./Contexts/FeedContext";
+import { LoadingContext } from "./Contexts/LoadingContext";
+import { UserContext } from "./Contexts/UserContext";
+import Auth from "./Routes/Auth";
+import Landing from "./Routes/Landing";
+import Feed from "./Routes/Feed";
+import Profile from "./Routes/Profile";
+import Search from "./Routes/Search";
+import { mentorTheme } from "./Theme";
 
 function App() {
   const { loading } = useContext(LoadingContext);
@@ -31,7 +31,7 @@ function App() {
         )}
         <FeedProvider userData={userData}>
           <Routes>
-            {/* <Route path="/" element={<Home />} /> */}
+            <Route path="/" element={<Landing />} />
             <Route
               path="/auth"
               element={user ? <Navigate to={state} /> : <Auth />}
@@ -72,8 +72,7 @@ function App() {
                 )
               }
             />
-            {/* <Route path="*" element={<Err404 />} /> */}
-            <Route path="*" element={<Landing />} />
+            <Route path="*" element={<Err404 />} />
           </Routes>
         </FeedProvider>
       </div>
