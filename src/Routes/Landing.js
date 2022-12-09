@@ -1,16 +1,16 @@
-import React from 'react';
-import { Box, Container, Grid, Paper, Stack } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import HeroImg from '../Assets/learning-hero.jpg';
-import Math from '../Assets/Subject/maths.png';
-import Physics from '../Assets/Subject/atom.png';
-import Chemistry from '../Assets/Subject/test.png';
-import Computer from '../Assets/Subject/system.png';
+import React from "react";
+import { Box, Container, Grid, Paper, Stack } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import HeroImg from "../Assets/learning-hero.jpg";
+import Math from "../Assets/Subject/maths.png";
+import Physics from "../Assets/Subject/atom.png";
+import Chemistry from "../Assets/Subject/test.png";
+import Computer from "../Assets/Subject/system.png";
 
 function Landing() {
   return (
@@ -54,8 +54,8 @@ function Landing() {
               xs={12}
               md={5}
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
+                display: "flex",
+                justifyContent: "center",
               }}
             >
               <img
@@ -74,7 +74,7 @@ function Landing() {
       <Box
         sx={{
           py: 5,
-          backgroundColor: 'secondary.light',
+          backgroundColor: "secondary.light",
         }}
       >
         <Container>
@@ -88,17 +88,17 @@ function Landing() {
             spacing={3}
             my={3}
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <Grid item sx={6} md={2}>
               <Paper
                 sx={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   p: 3,
-                  width: '100%',
+                  width: "100%",
                 }}
               >
                 <img src={Math} alt="Mathematics" height="50" />
@@ -108,7 +108,7 @@ function Landing() {
             <Grid item sx={6} md={2}>
               <Paper
                 sx={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   p: 3,
                 }}
               >
@@ -119,7 +119,7 @@ function Landing() {
             <Grid item sx={6} md={2}>
               <Paper
                 sx={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   p: 3,
                 }}
               >
@@ -130,7 +130,7 @@ function Landing() {
             <Grid item sx={6} md={2}>
               <Paper
                 sx={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   p: 3,
                 }}
               >
@@ -143,23 +143,18 @@ function Landing() {
       </Box>
       <Box sx={{ py: 5 }}>
         <Container>
-          <Typography
-            variant="h2"
-            color="initial"
-            // fontWeight={400}
-            textAlign="center"
-          >
+          <Typography variant="h2" color="initial" textAlign="center">
             How <strong>it works</strong>?
           </Typography>
           <Stack
             spacing={3}
-            direction={{ xs: 'column', sm: 'row' }}
+            direction={{ xs: "column", sm: "row" }}
             sx={{
               my: 2,
               py: 2,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <Card sx={{ maxWidth: 345 }}>

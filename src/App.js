@@ -19,14 +19,12 @@ function App() {
   const { loading } = useContext(LoadingContext);
   const { user, userData } = useContext(UserContext);
 
-  // get path from url
   const { pathname, state } = useLocation();
 
   return (
     <ThemeProvider theme={mentorTheme}>
       <div className="App">
         {loading && (
-          // loading screen absolute position
           <Loading />
         )}
         <FeedProvider userData={userData}>

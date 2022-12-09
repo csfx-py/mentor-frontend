@@ -47,7 +47,6 @@ function Post({ post }) {
   const handleDelete = async (e) => {
     e.preventDefault();
 
-    // confirm delete
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
     const res = await deletePost(post._id);

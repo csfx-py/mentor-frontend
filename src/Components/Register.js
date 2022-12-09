@@ -31,13 +31,11 @@ function Register({ setIsRegistered }) {
       enqueueSnackbar("Passwords do not match");
       return false;
     }
-    // email regex
     const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     if (!emailRegex.test(data.email)) {
       enqueueSnackbar("Please enter a valid email");
       return false;
     }
-    // password regex
     const passwordRegex =
       /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!#.])[A-Za-z\d$@$!%*?&.]{6,20}/;
     if (!passwordRegex.test(data.password)) {
@@ -118,7 +116,6 @@ function Register({ setIsRegistered }) {
         value={data.password}
         onChange={handleChange}
         error={
-          // password with alphabets and special characters with length 6
           data.password.match(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/
           ) === null

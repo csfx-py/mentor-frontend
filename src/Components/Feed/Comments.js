@@ -78,7 +78,6 @@ export default function Comments({ postID, comments = [] }) {
                 }}
               >
                 {
-                  // check if date is today or yesterday or older and display accordingly
                   new Date(comment?.date).toLocaleDateString() ===
                   new Date().toLocaleDateString()
                     ? `Today at ${new Date(comment?.date).toLocaleTimeString()}`

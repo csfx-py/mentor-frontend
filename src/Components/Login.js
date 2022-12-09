@@ -31,7 +31,6 @@ function Login({ setIsRegistered }) {
       enqueueSnackbar("Please enter a valid email");
       return false;
     }
-    // password regex
     const passwordRegex =
       /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!#.])[A-Za-z\d$@$!%*?&.]{6,20}/;
     if (!passwordRegex.test(data.password)) {
@@ -100,7 +99,6 @@ function Login({ setIsRegistered }) {
         value={data.password}
         onChange={handleChange}
         error={
-          // password with alphabets and special characters with length 6
           data.password.match(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/
           ) === null
