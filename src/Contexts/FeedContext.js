@@ -6,7 +6,7 @@ export const FeedContext = createContext();
 
 export const FeedProvider = ({ children, userData }) => {
   const { setLoading } = useContext(LoadingContext);
-  const [feedPosts, setFeedPosts] = useState(null);
+  const [feedPosts, setFeedPosts] = useState([]);
 
   // eslint-disable-next-line no-unused-vars
   const [tags, setTags] = useState([]);
@@ -23,14 +23,14 @@ export const FeedProvider = ({ children, userData }) => {
       })
       .catch((err) => {
         console.log(err);
-        setTags(null);
+        setTags([]);
       });
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    setFeedPosts(null);
+    setFeedPosts([]);
   }, [userData]);
 
   const getPosts = async (followingTags) => {
@@ -177,6 +177,29 @@ export const FeedProvider = ({ children, userData }) => {
     }
   };
 
+  const getMyPosts = async () => {
+    try {
+      setLoading(true);
+      const res = await API.get(`/posts/get-my-posts`, {
+        params: {
+          userId: userData._id,
+        },
+      });
+
+      if (res.data.success) {
+        setFeedPosts(res.data.posts || []);
+        setLoading(false);
+        return { success: true };
+      } else {
+        setLoading(false);
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      setLoading(false);
+      return { success: false, error: error.response?.data || error };
+    }
+  };
+
   return (
     <FeedContext.Provider
       value={{
@@ -186,6 +209,7 @@ export const FeedProvider = ({ children, userData }) => {
         addComment,
         deleteComment,
         searchPosts,
+        getMyPosts,
         feedPosts,
         setFeedPosts,
         tagOptions: tags,
