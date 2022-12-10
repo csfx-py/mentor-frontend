@@ -24,12 +24,15 @@ function App() {
   return (
     <ThemeProvider theme={mentorTheme}>
       <div className="App">
-        {loading && (
-          <Loading />
-        )}
+        {loading && <Loading />}
         <FeedProvider userData={userData}>
           <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route
+              path="/"
+              element={
+                user ? <Navigate to="/feed" state={pathname} /> : <Landing />
+              }
+            />
             <Route
               path="/auth"
               element={user ? <Navigate to={state} /> : <Auth />}
