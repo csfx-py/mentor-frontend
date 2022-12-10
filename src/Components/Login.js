@@ -16,8 +16,13 @@ function Login({ setIsRegistered }) {
     email: "",
     password: "",
   });
+  const [firstEdit, setFirstEdit] = useState({
+    email: false,
+    password: false,
+  });
 
   const handleChange = (e) => {
+    setFirstEdit({ ...firstEdit, [e.target.name]: true });
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
@@ -35,7 +40,7 @@ function Login({ setIsRegistered }) {
       /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!#.])[A-Za-z\d$@$!%*?&.]{6,20}/;
     if (!passwordRegex.test(data.password)) {
       enqueueSnackbar(
-        "Password must be at least 8 characters long and must contain at least one uppercase letter, one lowercase letter and one number"
+        "Password must be at least 6 characters long and must contain at least one uppercase letter, one lowercase letter and one number"
       );
       return false;
     }
@@ -81,9 +86,11 @@ function Login({ setIsRegistered }) {
         name="email"
         value={data.email}
         error={
+          firstEdit.email &&
           data.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) === null
         }
         helperText={
+          firstEdit.email &&
           data.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) === null
             ? "Enter valid email"
             : ""
@@ -99,15 +106,17 @@ function Login({ setIsRegistered }) {
         value={data.password}
         onChange={handleChange}
         error={
+          firstEdit.password &&
           data.password.match(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/
           ) === null
         }
         helperText={
+          firstEdit.password &&
           data.password.match(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/
           ) === null
-            ? "Password must contain atleast 1 uppercase, 1 lowercase, 1 special character and 1 number"
+            ? "Password must contain atleast 1 uppercase, 1 lowercase, 1 special character and 1 number, and must be atleast 6 characters long"
             : ""
         }
       />
