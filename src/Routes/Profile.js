@@ -15,7 +15,7 @@ function Profile() {
   useEffect(() => {
     getMyPosts().then((res) => {
       if (!res.success) {
-        console.log(res.error);
+        console.log(res?.error?.message);
       }
       setLoading(false);
     });

@@ -68,7 +68,7 @@ function Register({ setIsRegistered }) {
       enqueueSnackbar("Registered Successfully", { variant: "success" });
       navigate("/feed");
     } else {
-      enqueueSnackbar(`Registration Failed ${registered.error.message}`, {
+      enqueueSnackbar(`Registration Failed ${registered.error?.message}`, {
         variant: "error",
       });
     }

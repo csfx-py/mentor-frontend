@@ -109,7 +109,7 @@ export default function ProfielDetails() {
     if (res.success) {
       enqueueSnackbar("Profile updated successfully", { variant: "success" });
     } else {
-      enqueueSnackbar(res.error.message, { variant: "error" });
+      enqueueSnackbar(res.error?.message, { variant: "error" });
     }
   };
 
@@ -125,7 +125,7 @@ export default function ProfielDetails() {
       enqueueSnackbar("Profile updated successfully", { variant: "success" });
       setEditPassword(false);
     } else {
-      enqueueSnackbar(res.error.message, { variant: "error" });
+      enqueueSnackbar(res.error?.message, { variant: "error" });
     }
   };
 

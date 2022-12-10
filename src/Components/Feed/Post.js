@@ -38,7 +38,7 @@ function Post({ post }) {
       setNewComment("");
       enqueueSnackbar("Comment added successfully", { variant: "success" });
     } else {
-      enqueueSnackbar(res.error, { variant: "error" });
+      enqueueSnackbar(res.error?.message, { variant: "error" });
     }
   };
 
@@ -52,7 +52,7 @@ function Post({ post }) {
     if (res.success) {
       enqueueSnackbar("Post deleted successfully", { variant: "success" });
     } else {
-      enqueueSnackbar(res.error, { variant: "error" });
+      enqueueSnackbar(res.error?.message, { variant: "error" });
     }
   };
 

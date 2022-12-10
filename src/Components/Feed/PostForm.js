@@ -104,7 +104,7 @@ function PostForm() {
       setDescription("");
       setTags([]);
     } else {
-      enqueueSnackbar(res.error, {
+      enqueueSnackbar(res.error?.message, {
         variant: "error",
       });
     }

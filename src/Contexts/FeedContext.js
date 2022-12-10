@@ -22,7 +22,7 @@ export const FeedProvider = ({ children, userData }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
         setTags([]);
       });
     setLoading(false);
@@ -50,7 +50,6 @@ export const FeedProvider = ({ children, userData }) => {
         throw new Error(res.data.message);
       }
     } catch (error) {
-      console.log(error);
       setFeedPosts([]);
       setLoading(false);
       return {

@@ -15,11 +15,11 @@ function Mid({ searched = false, style = {} }) {
       getPosts(userData?.followingTags || [])
         .then((res) => {
           if (!res.success) {
-            console.log(res.error);
+            console.log(res?.error?.message);
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error?.message);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.followingTags]);

@@ -22,7 +22,7 @@ export default function Comment({ postID, comment }) {
     if (res.success) {
       enqueueSnackbar("Comment deleted successfully", { variant: "success" });
     } else {
-      enqueueSnackbar(res.error, { variant: "error" });
+      enqueueSnackbar(res.error?.message, { variant: "error" });
     }
   };
   return (

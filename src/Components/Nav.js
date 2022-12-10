@@ -67,7 +67,7 @@ function Nav() {
     const res = await searchPosts(query);
 
     if (!res.success) {
-      enqueueSnackbar(res.error, { variant: "error" });
+      enqueueSnackbar(res?.error?.message, { variant: "error" });
       return;
     }
 

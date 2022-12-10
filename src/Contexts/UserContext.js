@@ -123,7 +123,7 @@ export const UserProvider = ({ children }) => {
         throw new Error(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      return { success: false, error: error.response?.data || error };
     } finally {
       setLoading(false);
     }
