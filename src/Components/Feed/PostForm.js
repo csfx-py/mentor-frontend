@@ -7,7 +7,7 @@ import {
   List,
   Paper,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useContext, useState } from "react";
@@ -200,7 +200,7 @@ function PostForm() {
             }}
             multiple
             id="tags-outlined"
-            options={tagOptions}
+            options={tagOptions || []}
             filterSelectedOptions
             renderInput={(params) => (
               <TextField {...params} label="Tags" placeholder="Tags" />
