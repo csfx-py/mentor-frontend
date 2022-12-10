@@ -6,7 +6,7 @@ import Login from "../Components/Login";
 import Register from "../Components/Register";
 
 function Auth() {
-  const [isRegistered, setIsRegistered] = useState(true);
+  const [isRegistered, setIsRegistered] = useState(false);
   return (
     <>
       <Box

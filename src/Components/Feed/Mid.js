@@ -47,7 +47,7 @@ function Mid({ searched = false, style = {} }) {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            height: "100%",
+            // height: "100%",
           }}
         >
           <SentimentVeryDissatisfied

@@ -87,7 +87,7 @@ function PostForm() {
     formData.append("description", description);
 
     tags.forEach((tag) => {
-      formData.append("tags", tag);
+      formData.append("tags", tag._id);
     });
 
     files.forEach((file) => {
@@ -201,6 +201,7 @@ function PostForm() {
             multiple
             id="tags-outlined"
             options={tagOptions || []}
+            getOptionLabel={(option) => option.name}
             filterSelectedOptions
             renderInput={(params) => (
               <TextField {...params} label="Tags" placeholder="Tags" />

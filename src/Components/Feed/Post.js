@@ -6,8 +6,6 @@ import {
   Chip,
   Grid,
   IconButton,
-  List,
-  ListItem,
   Paper,
   TextField,
   Typography,
@@ -69,14 +67,14 @@ function Post({ post }) {
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <Grid container alignItems="center">
-            <Avatar src={post.avatar || AvatarImage} sx={{ mr: 1 }} />
+            <Avatar src={post?.user?.avatar || AvatarImage} sx={{ mr: 1 }} />
             <Typography
               variant="h6"
               sx={{
                 fontWeight: "bold",
               }}
             >
-              {post?.name || "Anonymous User"}
+              {post?.user?.name || "Anonymous User"}
             </Typography>
             <Typography
               variant="overline"
@@ -102,15 +100,15 @@ function Post({ post }) {
           {post?.tags &&
             post?.tags.map((tag) => (
               <Chip
-                key={tag}
-                label={tag}
+                key={tag._id}
+                label={tag.name}
                 sx={{
                   m: 1,
                 }}
               />
             ))}
         </Grid>
-        {userData?._id === post?.user && (
+        {userData?._id === post?.user?._id && (
           <IconButton onClick={handleDelete}>
             <DeleteForever /> <Typography variant="body2">Delete</Typography>
           </IconButton>
@@ -125,7 +123,6 @@ function Post({ post }) {
             <IconButton
               rel="noreferrer"
               variant="contained"
-              item
               key={file._id}
               sx={{
                 display: "flex",

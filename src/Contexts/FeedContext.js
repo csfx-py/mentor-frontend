@@ -180,11 +180,7 @@ export const FeedProvider = ({ children, userData }) => {
   const getMyPosts = async () => {
     try {
       setLoading(true);
-      const res = await API.get(`/posts/get-my-posts`, {
-        params: {
-          userId: userData._id,
-        },
-      });
+      const res = await API.get(`/posts/get-my-posts`);
 
       if (res.data.success) {
         setFeedPosts(res.data.posts || []);
