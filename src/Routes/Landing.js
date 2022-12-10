@@ -55,14 +55,8 @@ function Landing() {
                 >
                   Join now
                 </Button>
-                <Button
-                  variant="outlined"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/auth");
-                  }}
-                >
-                  Log in
+                <Button variant="outlined" component="a" href="#how-it-works">
+                  How it works
                 </Button>
               </Stack>
             </Grid>
@@ -159,7 +153,7 @@ function Landing() {
         </Container>
       </Box>
       <Box sx={{ py: 5 }}>
-        <Container>
+        <Container id="how-it-works">
           <Typography variant="h2" color="initial" textAlign="center">
             How <strong>it works</strong>?
           </Typography>
