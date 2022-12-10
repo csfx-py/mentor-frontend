@@ -1,18 +1,23 @@
-import React from "react";
 import { Box, Container, Grid, Paper, Stack } from "@mui/material";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Everywhere from "../Assets/everywhere.svg";
+import Free from "../Assets/free.svg";
 import HeroImg from "../Assets/learning-hero.jpg";
-import Math from "../Assets/Subject/maths.png";
+import Share from "../Assets/share.svg";
 import Physics from "../Assets/Subject/atom.png";
-import Chemistry from "../Assets/Subject/test.png";
+import Math from "../Assets/Subject/maths.png";
 import Computer from "../Assets/Subject/system.png";
+import Chemistry from "../Assets/Subject/test.png";
 
 function Landing() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box
@@ -34,20 +39,32 @@ function Landing() {
                 Learn and share notes of your favorite subjects
               </Typography>
               <Typography variant="body1">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Debitis quo repudiandae veritatis. Quis quaerat consectetur
-                nihil asperiores ullam ex voluptates tempore possimus quas, aut,
-                molestias dicta, reiciendis alias laudantium fugiat.
+                Our platform is designed to help students to learn and share
+                notes of their favorite subjects. We have a wide range of
+                subjects to choose from. You can also share your notes with
+                others. It's free and easy to use.
               </Typography>
               <Stack spacing={2} direction="row" sx={{ my: 2 }}>
-                <Button variant="contained" disableElevation>
+                <Button
+                  variant="contained"
+                  disableElevation
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/auth");
+                  }}
+                >
                   Join now
                 </Button>
-                <Button variant="outlined">How it works</Button>
+                <Button
+                  variant="outlined"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/auth");
+                  }}
+                >
+                  Log in
+                </Button>
               </Stack>
-              <Typography variant="body2" color="initial">
-                Already have an account? Log in
-              </Typography>
             </Grid>
             <Grid
               item
@@ -59,7 +76,7 @@ function Landing() {
               }}
             >
               <img
-                src={HeroImg}
+                src={Share}
                 alt="Share note easily"
                 loading="lazy"
                 style={{
@@ -154,71 +171,66 @@ function Landing() {
               py: 2,
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
+              alignItems: "stretch",
             }}
           >
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ maxWidth: 345, flexGrow: 1 }}>
               <CardMedia
                 component="img"
-                height="140"
                 image={HeroImg}
+                sx={{
+                  maxHeight: 200,
+                }}
                 alt="Step 1 Name"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Lizard
+                  Work together
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
+                  Share a to-do list, post some instructions, or publish your
+                  notes online. It's easy to work together.
                 </Typography>
               </CardContent>
-              <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-              </CardActions>
             </Card>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ maxWidth: 345, flexGrow: 1 }}>
               <CardMedia
                 component="img"
-                height="140"
-                image={HeroImg}
+                image={Free}
+                sx={{
+                  maxHeight: 200,
+                  objectFit: "contain",
+                }}
                 alt="Step 1 Name"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Lizard
+                  It's free
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
+                  Syncing, sharing - it's all completely free.
                 </Typography>
               </CardContent>
-              <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-              </CardActions>
             </Card>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ maxWidth: 345, flexGrow: 1 }}>
               <CardMedia
                 component="img"
-                height="140"
-                image={HeroImg}
+                image={Everywhere}
+                style={{
+                  maxHeight: 200,
+                  objectFit: "contain",
+                }}
                 alt="Step 1 Name"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Lizard
+                  Use it everywhere
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
+                  Notes stay updated across all your devices, automatically and
+                  in real time. There's no “sync” button: It just works.
                 </Typography>
               </CardContent>
-              <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-              </CardActions>
             </Card>
           </Stack>
         </Container>
