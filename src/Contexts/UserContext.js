@@ -99,15 +99,54 @@ export const UserProvider = ({ children }) => {
       console.log(res.data);
       if (res.data.success) {
         setUserData(res.data.user);
-        setLoading(false);
         return { success: true };
       } else {
-        setLoading(false);
         throw new Error(res.data.message);
       }
     } catch (error) {
-      setLoading(false);
       return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const editUserData = async (details) => {
+    try {
+      setLoading(true);
+
+      const res = await API.put("/user/user", {
+        details,
+      });
+
+      if (res.data.success) {
+        setUserData(res.data.user);
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const changePassword = async (oldPassword, newPassword) => {
+    try {
+      setLoading(true);
+      const res = await API.put("/auth/password", {
+        oldPassword,
+        newPassword,
+      });
+
+      if (res.data.success) {
+        return { success: true };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,6 +159,8 @@ export const UserProvider = ({ children }) => {
         register,
         logout,
         updateAvatar,
+        editUserData,
+        changePassword,
       }}
     >
       {children}
