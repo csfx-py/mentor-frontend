@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -30,15 +34,14 @@ code {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ddd; 
+  background: #ddd;
   border-radius: 15px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #999; 
+  background: #999;
 }
-
