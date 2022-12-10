@@ -78,6 +78,26 @@ function Post({ post }) {
             >
               {post?.name || "Anonymous User"}
             </Typography>
+            <Typography
+              variant="overline"
+              alignSelf="flex-end"
+              justifySelf="flex-end"
+              sx={{
+                ml: 1,
+              }}
+            >
+              {new Date(post?.createdAt).toLocaleDateString() ===
+              new Date().toLocaleDateString()
+                ? `Today at ${new Date(post?.createdAt).toLocaleTimeString()}`
+                : new Date(post?.createdAt).toLocaleDateString() ===
+                  new Date(
+                    new Date().setDate(new Date().getDate() - 1)
+                  ).toLocaleDateString()
+                ? `Yesterday at ${new Date(
+                    post?.createdAt
+                  ).toLocaleTimeString()}`
+                : new Date(post?.createdAt).toLocaleDateString()}
+            </Typography>
           </Grid>
           {post?.tags &&
             post?.tags.map((tag) => (
@@ -99,32 +119,28 @@ function Post({ post }) {
       <Typography variant="body1">
         {post?.description || "No description provided"}
       </Typography>
-      <List
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          p: 0,
-          m: 0,
-        }}
-      >
+      <Grid container justifyContent="flex-start" alignItems="center">
         {post?.files &&
           post?.files.map((file) => (
-            <ListItem
+            <IconButton
+              rel="noreferrer"
+              variant="contained"
+              item
               key={file._id}
               sx={{
-                listStyle: "none",
-                p: 0,
-                m: 0,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                m: 1,
+                borderRadius: 1,
               }}
+              href={file?.url}
             >
               <Typography variant="body2">{file?.name}</Typography>
-              <IconButton href={file?.url} rel="noreferrer">
-                <DownloadIcon color="primary" />
-              </IconButton>
-            </ListItem>
+              <DownloadIcon color="primary" />
+            </IconButton>
           ))}
-      </List>
+      </Grid>
       <Box
         sx={{
           my: 2,
