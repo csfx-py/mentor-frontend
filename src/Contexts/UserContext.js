@@ -96,7 +96,6 @@ export const UserProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res.data);
       if (res.data.success) {
         setUserData(res.data.user);
         return { success: true };

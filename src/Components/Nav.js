@@ -1,11 +1,10 @@
-import { Clear, Search } from "@mui/icons-material";
+import { Search } from "@mui/icons-material";
 import {
   AppBar,
   Avatar,
   Box,
   Container,
   IconButton,
-  InputBase,
   Menu,
   MenuItem,
   TextField,
@@ -13,12 +12,12 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AvatarImage from "../Assets/puneet_avatar.jpeg";
-import { UserContext } from "../Contexts/UserContext";
 import { FeedContext } from "../Contexts/FeedContext";
-import { useSnackbar } from "notistack";
+import { UserContext } from "../Contexts/UserContext";
 
 function Nav() {
   // eslint-disable-next-line no-unused-vars

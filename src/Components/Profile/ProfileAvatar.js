@@ -17,7 +17,6 @@ function ProfileAvatar() {
 
   const handleFileChange = async (e) => {
     setNewAvatarFile(e.target.files[0]);
-    console.log(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -30,7 +29,6 @@ function ProfileAvatar() {
 
     const formData = new FormData();
     formData.append("avatar", newAvatarFile);
-    console.log(formData);
 
     const res = await updateAvatar(formData);
 

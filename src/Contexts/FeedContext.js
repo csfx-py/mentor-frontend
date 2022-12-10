@@ -62,7 +62,6 @@ export const FeedProvider = ({ children, userData }) => {
 
   const createPost = async (formData) => {
     try {
-      console.log(formData);
       setLoading(true);
       formData.append("user", userData._id);
       const res = await API.post("/posts/create", formData, {

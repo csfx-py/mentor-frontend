@@ -1,5 +1,4 @@
 import { Grid } from "@mui/material";
-import Left from "../Components/Feed/Left";
 import Mid from "../Components/Feed/Mid";
 
 function Feed() {

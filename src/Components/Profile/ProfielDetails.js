@@ -121,7 +121,6 @@ export default function ProfielDetails() {
       password.oldPassword,
       password.newPassword
     );
-    console.log(res);
     if (res.success) {
       enqueueSnackbar("Profile updated successfully", { variant: "success" });
       setEditPassword(false);
