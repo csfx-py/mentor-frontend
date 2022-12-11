@@ -104,7 +104,7 @@ function Landing() {
               alignItems: "center",
             }}
           >
-            <Grid item sx={6} md={2}>
+            <Grid item xs={6} md={2}>
               <Paper
                 sx={{
                   textAlign: "center",
@@ -116,7 +116,7 @@ function Landing() {
                 <Typography>Math</Typography>
               </Paper>
             </Grid>
-            <Grid item sx={6} md={2}>
+            <Grid item xs={6} md={2}>
               <Paper
                 sx={{
                   textAlign: "center",

@@ -4,12 +4,10 @@ import Mid from "../Components/Feed/Mid";
 import ProfielDetails from "../Components/Profile/ProfielDetails";
 import ProfileAvatar from "../Components/Profile/ProfileAvatar";
 import { FeedContext } from "../Contexts/FeedContext";
-import { LoadingContext } from "../Contexts/LoadingContext";
 import { UserContext } from "../Contexts/UserContext";
 
 function Profile() {
   const { getMyPosts } = useContext(FeedContext);
-  const { setLoading } = useContext(LoadingContext);
   const { userData } = useContext(UserContext);
 
   useEffect(() => {
@@ -17,7 +15,6 @@ function Profile() {
       if (!res.success) {
         console.log(res?.error?.message);
       }
-      setLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);

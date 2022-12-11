@@ -12,6 +12,7 @@ export const FeedProvider = ({ children, userData }) => {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
+    if (!userData) return;
     setLoading(true);
     API.get("/posts/tags")
       .then((res) => {
@@ -27,7 +28,7 @@ export const FeedProvider = ({ children, userData }) => {
       });
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userData]);
 
   useEffect(() => {
     setFeedPosts([]);
@@ -185,12 +186,12 @@ export const FeedProvider = ({ children, userData }) => {
         setLoading(false);
         return { success: true };
       } else {
-        setLoading(false);
         throw new Error(res.data.message);
       }
     } catch (error) {
-      setLoading(false);
       return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
     }
   };
 

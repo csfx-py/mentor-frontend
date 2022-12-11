@@ -11,15 +11,15 @@ import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <SnackbarProvider maxSnack={3}>
-      <LoadingProvider>
-        <UserProvider>
-          <BrowserRouter>
+    <BrowserRouter>
+      <SnackbarProvider maxSnack={3}>
+        <LoadingProvider>
+          <UserProvider>
             <App />
-          </BrowserRouter>
-        </UserProvider>
-      </LoadingProvider>
-    </SnackbarProvider>
+          </UserProvider>
+        </LoadingProvider>
+      </SnackbarProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
