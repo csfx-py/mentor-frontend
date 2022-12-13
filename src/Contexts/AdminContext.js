@@ -1,11 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import API from "../Utils/API";
+import { FeedContext } from "./FeedContext";
 import { LoadingContext } from "./LoadingContext";
 
 export const AdminContext = createContext();
 
 export const AdminProvider = ({ children, userData }) => {
   const { setLoading } = useContext(LoadingContext);
+  const { getTags } = useContext(FeedContext);
+
   const [allPosts, setAllPosts] = useState([]);
 
   useEffect(() => {
@@ -51,13 +54,18 @@ export const AdminProvider = ({ children, userData }) => {
     }
   };
 
-  const updateTags = async (newTags) => {
+  const updateTags = async (removeTags, newTags) => {
     try {
       setLoading(true);
       const res = await API.put("/admin/update-tags", {
-        tags: JSON.stringify(newTags),
+        removeTags,
+        newTags,
       });
       if (res.data.success) {
+        const tagRes = await getTags();
+        if (!tagRes.success) {
+          throw new Error(tagRes?.error?.message);
+        }
         return { success: true };
       } else {
         throw new Error(res.data.message);
@@ -74,7 +82,12 @@ export const AdminProvider = ({ children, userData }) => {
 
   return (
     <AdminContext.Provider
-      value={{ allPosts, setAllPosts, deletePost, updateTags }}
+      value={{
+        allPosts,
+        setAllPosts,
+        deletePost,
+        updateTags,
+      }}
     >
       {children}
     </AdminContext.Provider>
