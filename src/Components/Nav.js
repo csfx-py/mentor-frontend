@@ -39,25 +39,34 @@ function Nav() {
         navigate("/profile");
       },
     },
-    userData?.role === "admin" && {
+    {
       name: "Manage Tags",
       handler: () => {
         setAnchorElUser(null);
         navigate("/admin/tags");
       },
+      style: {
+        display: userData?.role === "admin" ? "flex" : "none",
+      },
     },
-    userData?.role === "admin" && {
+    {
       name: "Manage Users",
       handler: () => {
         setAnchorElUser(null);
         navigate("/admin/users");
       },
+      style: {
+        display: userData?.role === "admin" ? "flex" : "none",
+      },
     },
-    userData?.role === "admin" && {
+    {
       name: "Manage Posts",
       handler: () => {
         setAnchorElUser(null);
         navigate("/admin/posts");
+      },
+      style: {
+        display: userData?.role === "admin" ? "flex" : "none",
       },
     },
     {
@@ -209,7 +218,11 @@ function Nav() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting, index) => (
-                <MenuItem key={index} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={index}
+                  onClick={handleCloseUserMenu}
+                  sx={setting.style}
+                >
                   <Typography variant="h6" onClick={setting.handler}>
                     {setting.name}
                   </Typography>
