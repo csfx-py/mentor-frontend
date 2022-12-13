@@ -128,6 +128,7 @@ export const UserProvider = ({ children }) => {
 
       if (res.data.success) {
         setUserData(res.data.user);
+        return { success: true };
       } else {
         throw new Error(res.data.message);
       }
