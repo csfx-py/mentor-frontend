@@ -34,6 +34,27 @@ export const FeedProvider = ({ children, userData }) => {
     setFeedPosts([]);
   }, [userData]);
 
+  const getTags = async () => {
+    try {
+      setLoading(true);
+      const res = await API.get("/posts/tags");
+      if (res.data.success) {
+        setTags(res.data.tags);
+        return { success: true };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      setTags([]);
+      return {
+        success: false,
+        error: error.response?.data || error,
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getPosts = async (followingTags) => {
     try {
       setLoading(true);
@@ -44,19 +65,18 @@ export const FeedProvider = ({ children, userData }) => {
       });
       if (res.data.success) {
         setFeedPosts(res.data.posts || []);
-        setLoading(false);
         return { success: true };
       } else {
-        setLoading(false);
         throw new Error(res.data.message);
       }
     } catch (error) {
       setFeedPosts([]);
-      setLoading(false);
       return {
         success: false,
         error: error.response?.data || error,
       };
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,15 +91,14 @@ export const FeedProvider = ({ children, userData }) => {
       });
       if (res.data.success) {
         getPosts(userData?.followingTags || []);
-        setLoading(false);
         return { success: true };
       } else {
-        setLoading(false);
         throw new Error(res.data.message);
       }
     } catch (error) {
-      setLoading(false);
       return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,15 +112,14 @@ export const FeedProvider = ({ children, userData }) => {
       });
       if (res.data.success) {
         getPosts(userData?.followingTags || []);
-        setLoading(false);
         return { success: true };
       } else {
-        setLoading(false);
         throw new Error(res.data.message);
       }
     } catch (error) {
-      setLoading(false);
       return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -118,15 +136,14 @@ export const FeedProvider = ({ children, userData }) => {
       });
       if (res.data.success) {
         getPosts(userData?.followingTags || []);
-        setLoading(false);
         return { success: true };
       } else {
-        setLoading(false);
         throw new Error(res.data.message);
       }
     } catch (error) {
-      setLoading(false);
       return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -141,15 +158,14 @@ export const FeedProvider = ({ children, userData }) => {
       });
       if (res.data.success) {
         getPosts(userData?.followingTags || []);
-        setLoading(false);
         return { success: true };
       } else {
-        setLoading(false);
         throw new Error(res.data.message);
       }
     } catch (error) {
-      setLoading(false);
       return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -164,15 +180,14 @@ export const FeedProvider = ({ children, userData }) => {
 
       if (res.data.success) {
         setFeedPosts(res.data.posts || []);
-        setLoading(false);
         return { success: true };
       } else {
-        setLoading(false);
         throw new Error(res.data.message);
       }
     } catch (error) {
-      setLoading(false);
       return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -183,7 +198,6 @@ export const FeedProvider = ({ children, userData }) => {
 
       if (res.data.success) {
         setFeedPosts(res.data.posts || []);
-        setLoading(false);
         return { success: true };
       } else {
         throw new Error(res.data.message);
@@ -198,6 +212,7 @@ export const FeedProvider = ({ children, userData }) => {
   return (
     <FeedContext.Provider
       value={{
+        getTags,
         createPost,
         deletePost,
         getPosts,
