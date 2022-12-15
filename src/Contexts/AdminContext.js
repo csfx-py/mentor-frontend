@@ -10,6 +10,7 @@ export const AdminProvider = ({ children, userData }) => {
   const { getTags } = useContext(FeedContext);
 
   const [allPosts, setAllPosts] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
     if (!userData || userData?.role !== "admin") return;
@@ -33,6 +34,26 @@ export const AdminProvider = ({ children, userData }) => {
   useEffect(() => {
     setAllPosts([]);
   }, [userData]);
+
+  const getAllUsers = async () => {
+    try {
+      setLoading(true);
+      const res = await API.get("/admin/get-users");
+      if (res.data.success) {
+        setAllUsers(res.data.users);
+        return { success: true };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data || error,
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const deletePost = async (postId) => {
     try {
@@ -85,6 +106,8 @@ export const AdminProvider = ({ children, userData }) => {
       value={{
         allPosts,
         setAllPosts,
+        allUsers,
+        getAllUsers,
         deletePost,
         updateTags,
       }}

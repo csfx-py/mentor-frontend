@@ -23,9 +23,9 @@ function Post({ post }) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { userData } = useContext(UserContext);
 
-  const [newComment, setNewComment] = useState("");
-
   const { addComment, deletePost } = useContext(FeedContext);
+
+  const [newComment, setNewComment] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,7 +108,7 @@ function Post({ post }) {
               />
             ))}
         </Grid>
-        {userData?._id === post?.user?._id && (
+        {(userData?._id === post?.user?._id || userData?.role === "admin") && (
           <IconButton onClick={handleDelete}>
             <DeleteForever /> <Typography variant="body2">Delete</Typography>
           </IconButton>
