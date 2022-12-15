@@ -8,14 +8,17 @@ import { AdminProvider } from "./Contexts/AdminContext";
 import { FeedProvider } from "./Contexts/FeedContext";
 import { LoadingContext } from "./Contexts/LoadingContext";
 import { UserContext } from "./Contexts/UserContext";
-import AdminsTags from "./Routes/AdminsTags";
+import AdminsTags from "./Routes/Admin/AdminsTags";
+import AdminUsers from "./Routes/Admin/AdminUsers";
 import Auth from "./Routes/Auth";
 import Err404 from "./Routes/Err404";
 import Feed from "./Routes/Feed";
 import Landing from "./Routes/Landing";
+import SinglePost from "./Routes/SinglePost";
 import Profile from "./Routes/Profile";
 import Search from "./Routes/Search";
 import { mentorTheme } from "./Theme";
+import PostNotFound from "./Routes/PostNotFound";
 
 function App() {
   const { loading } = useContext(LoadingContext);
@@ -76,6 +79,28 @@ function App() {
                   }
                 />
                 <Route
+                  path="/post/:postId"
+                  element={
+                    user ? (
+                      <ComponentWithNav>
+                        <SinglePost />
+                      </ComponentWithNav>
+                    ) : (
+                      <Navigate to="/auth" state={pathname} />
+                    )
+                  }
+                />
+                <Route
+                  path="/post-not-found"
+                  element={
+                    user ? (
+                      <PostNotFound />
+                    ) : (
+                      <Navigate to="/auth" state={pathname} />
+                    )
+                  }
+                />
+                <Route
                   path="/profile"
                   element={
                     user ? (
@@ -116,7 +141,7 @@ function App() {
                   element={
                     role === "admin" ? (
                       <ComponentWithNav>
-                        <>Admin Users</>
+                        <AdminUsers />
                       </ComponentWithNav>
                     ) : (
                       <Navigate to="/404" state={pathname} />
