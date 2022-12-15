@@ -55,6 +55,29 @@ export const FeedProvider = ({ children, userData }) => {
     }
   };
 
+  const getPost = async (postId) => {
+    try {
+      setLoading(true);
+      const res = await API.get("/posts/get-post", {
+        params: {
+          postId,
+        },
+      });
+      if (res.data.success) {
+        return { success: true, post: res.data.post };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data || error,
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getPosts = async (followingTags) => {
     try {
       setLoading(true);
@@ -215,6 +238,7 @@ export const FeedProvider = ({ children, userData }) => {
         getTags,
         createPost,
         deletePost,
+        getPost,
         getPosts,
         addComment,
         deleteComment,
