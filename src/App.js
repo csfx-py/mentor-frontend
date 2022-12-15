@@ -19,6 +19,7 @@ import Profile from "./Routes/Profile";
 import Search from "./Routes/Search";
 import { mentorTheme } from "./Theme";
 import PostNotFound from "./Routes/PostNotFound";
+import AdminPosts from "./Routes/Admin/AdminPosts";
 
 function App() {
   const { loading } = useContext(LoadingContext);
@@ -117,7 +118,7 @@ function App() {
                   element={
                     role === "admin" ? (
                       <ComponentWithNav>
-                        <>Admin Posts</>
+                        <AdminPosts />
                       </ComponentWithNav>
                     ) : (
                       <Navigate to="/404" state={pathname} />

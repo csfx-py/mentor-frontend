@@ -13,27 +13,38 @@ export const AdminProvider = ({ children, userData }) => {
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
-    if (!userData || userData?.role !== "admin") return;
-    setLoading(true);
-    API.get("/posts/get-all-posts")
-      .then((res) => {
-        if (res?.data?.success) {
-          setAllPosts(res.data?.posts);
-        } else {
-          throw new Error(res?.data?.message);
+    if (userData?.role === "admin") {
+      getAllPosts().then((res) => {
+        if (!res.success) {
+          console.log(res.error);
         }
-      })
-      .catch((err) => {
-        console.log(err.message);
-        setAllPosts([]);
       });
-    setLoading(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setAllPosts([]);
   }, [userData]);
+
+  const getAllPosts = async () => {
+    try {
+      if (!userData || userData?.role !== "admin") return;
+      setLoading(true);
+
+      const res = await API.get("/admin/get-all-posts");
+
+      if (res.data.success) {
+        setAllPosts(res.data?.posts);
+        return { success: true };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data || error,
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getAllUsers = async () => {
     try {
@@ -105,7 +116,7 @@ export const AdminProvider = ({ children, userData }) => {
     <AdminContext.Provider
       value={{
         allPosts,
-        setAllPosts,
+        getAllPosts,
         allUsers,
         getAllUsers,
         deletePost,

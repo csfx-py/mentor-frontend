@@ -6,7 +6,7 @@ import { UserContext } from "../../Contexts/UserContext";
 import Post from "./Post";
 import PostForm from "./PostForm";
 
-function Mid({ searched = false, style = {} }) {
+function Mid({ searched = false, style = {}, allPosts = null }) {
   const { userData } = useContext(UserContext);
   const { getPosts, feedPosts } = useContext(FeedContext);
 
@@ -21,6 +21,7 @@ function Mid({ searched = false, style = {} }) {
         .catch((error) => {
           console.log(error?.message);
         });
+    if (!allPosts) return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.followingTags]);
 
@@ -37,10 +38,13 @@ function Mid({ searched = false, style = {} }) {
     >
       <Grid container direction={"column"} sx={{ p: 2 }}>
         {!searched && <PostForm />}
-        {feedPosts &&
+        {allPosts &&
+          allPosts.map((post) => <Post key={post._id} post={post} />)}
+        {!allPosts &&
+          feedPosts &&
           feedPosts.map((post) => <Post key={post._id} post={post} />)}
       </Grid>
-      {feedPosts?.length === 0 ? (
+      {feedPosts?.length === 0 && allPosts?.length === 0 ? (
         <div
           style={{
             display: "flex",
