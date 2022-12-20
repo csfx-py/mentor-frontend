@@ -43,6 +43,8 @@ export const UserProvider = ({ children }) => {
         }
       });
     }
+    setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const register = async (name, email, password) => {
@@ -53,7 +55,7 @@ export const UserProvider = ({ children }) => {
         password,
       });
       if (res.data.success) {
-        setUser(res.data.token);
+        setUser(res.data?.token);
         localStorage.setItem("withCreds", true);
       } else {
         throw new Error(res.data.message);
@@ -165,6 +167,7 @@ export const UserProvider = ({ children }) => {
         user,
         role,
         userData,
+        setUserData,
         login,
         register,
         logout,
