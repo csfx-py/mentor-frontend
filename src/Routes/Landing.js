@@ -127,7 +127,7 @@ function Landing() {
                 <Typography>Physics</Typography>
               </Paper>
             </Grid>
-            <Grid item sx={6} md={2}>
+            <Grid item xs={6} md={2}>
               <Paper
                 sx={{
                   textAlign: "center",
