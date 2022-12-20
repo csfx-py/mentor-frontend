@@ -1,11 +1,17 @@
-import { DeleteForever } from "@mui/icons-material";
-import DownloadIcon from "@mui/icons-material/Download";
+import {
+  AddReaction,
+  Chat,
+  DeleteForever,
+  ShoppingCartCheckout,
+} from "@mui/icons-material";
 import {
   Avatar,
   Button,
   Chip,
+  Divider,
   Grid,
   IconButton,
+  InputAdornment,
   Paper,
   TextField,
   Typography,
@@ -17,13 +23,15 @@ import AvatarImage from "../../Assets/puneet_avatar.jpeg";
 import { FeedContext } from "../../Contexts/FeedContext";
 import { UserContext } from "../../Contexts/UserContext";
 import Comments from "./Comments";
+import PostDecsription from "./PostDecsription";
 
 function Post({ post }) {
   // eslint-disable-next-line no-unused-vars
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { userData } = useContext(UserContext);
 
-  const { addComment, deletePost } = useContext(FeedContext);
+  const { addComment, deletePost, purchase, likeOrDislikePost } =
+    useContext(FeedContext);
 
   const [newComment, setNewComment] = useState("");
 
@@ -76,26 +84,6 @@ function Post({ post }) {
             >
               {post?.user?.name || "Anonymous User"}
             </Typography>
-            <Typography
-              variant="overline"
-              alignSelf="flex-end"
-              justifySelf="flex-end"
-              sx={{
-                ml: 1,
-              }}
-            >
-              {new Date(post?.createdAt).toLocaleDateString() ===
-              new Date().toLocaleDateString()
-                ? `Today at ${new Date(post?.createdAt).toLocaleTimeString()}`
-                : new Date(post?.createdAt).toLocaleDateString() ===
-                  new Date(
-                    new Date().setDate(new Date().getDate() - 1)
-                  ).toLocaleDateString()
-                ? `Yesterday at ${new Date(
-                    post?.createdAt
-                  ).toLocaleTimeString()}`
-                : new Date(post?.createdAt).toLocaleDateString()}
-            </Typography>
           </Grid>
           {post?.tags &&
             post?.tags.map((tag) => (
@@ -114,57 +102,130 @@ function Post({ post }) {
           </IconButton>
         )}
       </Grid>
-      <Typography variant="body1">
-        {post?.description || "No description provided"}
-      </Typography>
-      <Grid container justifyContent="flex-start" alignItems="center">
-        {post?.files &&
-          post?.files.map((file) => (
-            <IconButton
-              rel="noreferrer"
-              variant="contained"
-              key={file._id}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                m: 1,
-                borderRadius: 1,
-              }}
-              href={file?.url}
-            >
-              <Typography variant="body2">{file?.name}</Typography>
-              <DownloadIcon color="primary" />
-            </IconButton>
-          ))}
-      </Grid>
-      <Box
-        sx={{
-          my: 2,
-          p: 1,
+      <div
+        style={{
+          margin: "0 8px",
         }}
       >
+        {post.isPaid &&
+          (userData?._id === post?.user?._id ||
+          userData?.role === "admin" ||
+          userData?.paidForPosts?.includes(post._id) ? (
+            <>
+              <Typography variant="h6" sx={{ my: 1, ml: 1 }}>
+                {post?.title}
+              </Typography>
+              <PostDecsription post={post} userData={userData} />
+            </>
+          ) : (
+            <>
+              <Typography variant="h6" sx={{ my: 1 }}>
+                {post?.title}
+              </Typography>
+              <div
+                style={{
+                  display: "flex",
+                  backgroundColor: "rgba(0, 0, 0, 0.08)",
+                  padding: "1rem",
+                  borderRadius: "0.5rem",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="body1" sx={{ my: 1 }}>
+                  The content of this post is locked. You can pay ₹{post.price}{" "}
+                  to see the content.
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="warning"
+                  sx={{
+                    mt: 1,
+                  }}
+                  onClick={async (e) => await purchase(post._id)}
+                >
+                  <ShoppingCartCheckout sx={{ mr: 1 }} />
+                  Pay ₹{post.price}
+                </Button>
+              </div>
+            </>
+          ))}
+      </div>
+      <Divider sx={{ my: 1 }} />
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Grid item sx={{ display: "flex", alignItems: "center" }}>
+          <IconButton
+            onClick={async (e) => {
+              e.preventDefault();
+              const res = await likeOrDislikePost(post._id);
+              console.log(res);
+              if (!res.success)
+                enqueueSnackbar(res.error?.message, { variant: "error" });
+            }}
+          >
+            <AddReaction
+              color={
+                post.likes.map((like) => like._id).includes(userData?._id)
+                  ? "success"
+                  : "disabled"
+              }
+            />
+          </IconButton>
+          <Typography variant="body2" sx={{ ml: 1 }}>
+            {post.likes.length}
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Typography
+            variant="overline"
+            alignSelf="flex-end"
+            justifySelf="flex-end"
+            sx={{
+              ml: 1,
+            }}
+          >
+            {new Date(post?.createdAt).toLocaleDateString() ===
+            new Date().toLocaleDateString()
+              ? `Today at ${new Date(post?.createdAt).toLocaleTimeString()}`
+              : new Date(post?.createdAt).toLocaleDateString() ===
+                new Date(
+                  new Date().setDate(new Date().getDate() - 1)
+                ).toLocaleDateString()
+              ? `Yesterday at ${new Date(post?.createdAt).toLocaleTimeString()}`
+              : new Date(post?.createdAt).toLocaleDateString()}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Box>
         <Comments comments={post?.comments} postID={post?._id} />
         <form onSubmit={handleSubmit}>
           <TextField
             label="Add a comment"
             variant="outlined"
             fullWidth
+            size="small"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             sx={{
               mt: 1,
             }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              mt: 1,
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    type="submit"
+                    size="large"
+                    sx={{
+                      mt: 1,
+                    }}
+                    color="primary"
+                  >
+                    <Chat />
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
-          >
-            Add Comment
-          </Button>
+          />
         </form>
       </Box>
     </Paper>
