@@ -20,6 +20,7 @@ import Search from "./Routes/Search";
 import { mentorTheme } from "./Theme";
 import PostNotFound from "./Routes/PostNotFound";
 import AdminPosts from "./Routes/Admin/AdminPosts";
+import Payment from "./Routes/Payment";
 
 function App() {
   const { loading } = useContext(LoadingContext);
@@ -156,6 +157,30 @@ function App() {
                       <Navigate to={state} />
                     ) : (
                       <Err404 />
+                    )
+                  }
+                />
+                <Route
+                  path="/success/:postId/:sessionId"
+                  element={
+                    user ? (
+                      <ComponentWithNav>
+                        <Payment conclusion="success" />
+                      </ComponentWithNav>
+                    ) : (
+                      <Navigate to="/auth" state={pathname} />
+                    )
+                  }
+                />
+                <Route
+                  path="/cancel"
+                  element={
+                    user ? (
+                      <ComponentWithNav>
+                        <Payment conclusion="failure" />
+                      </ComponentWithNav>
+                    ) : (
+                      <Navigate to="/auth" state={pathname} />
                     )
                   }
                 />
