@@ -1,5 +1,5 @@
 import { DeleteForever } from "@mui/icons-material";
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { Avatar, Divider, Grid, IconButton, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useContext } from "react";
 import AvatarImage from "../../Assets/puneet_avatar.jpeg";
@@ -25,90 +25,174 @@ export default function Comment({ postID, comment }) {
       enqueueSnackbar(res.error?.message, { variant: "error" });
     }
   };
+  //   return (
+  //     <>
+  //       <div
+  //         style={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //           borderTop: "1px solid #ccc",
+  //           justifyContent: "space-between",
+  //         }}
+  //       >
+  //         <div
+  //           style={{
+  //             display: "flex",
+  //             alignItems: "center",
+  //             padding: 1,
+  //           }}
+  //         >
+  //           <Avatar
+  //             src={comment?.user?.avatar || AvatarImage}
+  //             sx={{
+  //               width: 30,
+  //               height: 30,
+  //               mx: 1,
+  //             }}
+  //           />
+  //           <Typography
+  //             variant="h6"
+  //           >
+  //             {comment?.user?.name || "Anonymous User"}
+  //           </Typography>
+  //         </div>
+  //         {userData?._id === comment?.user._id && (
+  //           <IconButton onClick={(e) => handleDelete(e, comment?._id)}>
+  //             <DeleteForever />
+  //             <Typography variant="body2">Delete</Typography>
+  //           </IconButton>
+  //         )}
+  //       </div>
+  //       <div
+  //         style={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //           justifyContent: "space-between",
+  //         }}
+  //       >
+  //         <Typography variant="body1" sx={{ ml: 6 }}>
+  //           {comment?.text || "No comment data"}
+  //         </Typography>
+  //         <Typography
+  //           variant="body2"
+  //           sx={{
+  //             ml: 1,
+  //           }}
+  //         >
+  //           {new Date(comment?.createdAt).toLocaleDateString() ===
+  //           new Date().toLocaleDateString()
+  //             ? `Today at ${new Date(comment?.createdAt).toLocaleTimeString([], {
+  //                 hour: "2-digit",
+  //                 minute: "2-digit",
+  //               })}`
+  //             : new Date(comment?.createdAt).toLocaleDateString() ===
+  //               new Date(
+  //                 new Date().setDate(new Date().getDate() - 1)
+  //               ).toLocaleDateString()
+  //             ? `Yesterday at ${new Date(comment?.createdAt).toLocaleTimeString(
+  //                 [],
+  //                 {
+  //                   hour: "2-digit",
+  //                   minute: "2-digit",
+  //                 }
+  //               )}`
+  //             : new Date(comment?.createdAt).toLocaleDateString([], {
+  //                 day: "2-digit",
+  //                 month: "2-digit",
+  //                 year: "numeric",
+  //               })}
+  //         </Typography>
+  //       </div>
+  //     </>
+  //   );
+
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          borderTop: "1px solid #ccc",
-          padding: 1,
-          justifyContent: "space-between",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            borderTop: "1px solid #ccc",
-            padding: 1,
-          }}
-        >
+      <Divider />
+      <Grid container>
+        <Grid item xs={1} sx={{ display: "flex", justifyContent: "center" }}>
           <Avatar
             src={comment?.user?.avatar || AvatarImage}
             sx={{
-              width: 30,
-              height: 30,
-              m: 1,
+              Width: "30px",
+              Height: "30px",
+              mt: 1,
             }}
           />
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: "bold",
-            }}
-          >
-            {comment?.user?.name || "Anonymous User"}
-          </Typography>
-        </div>
-        {userData?._id === comment?.user._id && (
-          <IconButton onClick={(e) => handleDelete(e, comment?._id)}>
-            <DeleteForever />
-            <Typography variant="body2">Delete</Typography>
-          </IconButton>
-        )}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: 1,
-        }}
-      >
-        <Typography variant="body1" sx={{ ml: 6 }}>
-          {comment?.text || "No comment data"}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            ml: 1,
-          }}
-        >
-          {new Date(comment?.createdAt).toLocaleDateString() ===
-          new Date().toLocaleDateString()
-            ? `Today at ${new Date(comment?.createdAt).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}`
-            : new Date(comment?.createdAt).toLocaleDateString() ===
-              new Date(
-                new Date().setDate(new Date().getDate() - 1)
-              ).toLocaleDateString()
-            ? `Yesterday at ${new Date(comment?.createdAt).toLocaleTimeString(
-                [],
-                {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                }
-              )}`
-            : new Date(comment?.createdAt).toLocaleDateString([], {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              })}
-        </Typography>
-      </div>
+        </Grid>
+        <Grid item xs={9}>
+          <Grid container flexDirection="column">
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "flex-start" }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  ml: 1,
+                }}
+              >
+                {comment?.user?.name || "Anonymous User"}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                variant="body1"
+                sx={{
+                  ml: 1,
+                }}
+              >
+                {comment?.text || "No comment data"}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={2}>
+          <Grid container flexDirection="column" alignItems="flex-end">
+            <Grid item xs={12}>
+              {userData?._id === comment?.user._id && (
+                <IconButton onClick={(e) => handleDelete(e, comment?._id)}>
+                  <DeleteForever />
+                </IconButton>
+              )}
+            </Grid>
+            <Grid item xs={10}>
+              <Typography
+                variant="body2"
+                sx={{
+                  ml: 1,
+                }}
+              >
+                {new Date(comment?.createdAt).toLocaleDateString() ===
+                new Date().toLocaleDateString()
+                  ? `Today at ${new Date(comment?.createdAt).toLocaleTimeString(
+                      [],
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      }
+                    )}`
+                  : new Date(comment?.createdAt).toLocaleDateString() ===
+                    new Date(
+                      new Date().setDate(new Date().getDate() - 1)
+                    ).toLocaleDateString()
+                  ? `Yesterday at ${new Date(
+                      comment?.createdAt
+                    ).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}`
+                  : new Date(comment?.createdAt).toLocaleDateString([], {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 }
