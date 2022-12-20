@@ -1,14 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import API from "../Utils/API";
 import { LoadingContext } from "./LoadingContext";
+import { UserContext } from "./UserContext";
 
 export const FeedContext = createContext();
 
 export const FeedProvider = ({ children, userData }) => {
   const { setLoading } = useContext(LoadingContext);
-  const [feedPosts, setFeedPosts] = useState([]);
+  const { setUserData } = useContext(UserContext);
 
-  // eslint-disable-next-line no-unused-vars
+  const [feedPosts, setFeedPosts] = useState([]);
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
@@ -80,13 +81,14 @@ export const FeedProvider = ({ children, userData }) => {
 
   const getPosts = async (followingTags) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const res = await API.get("/posts/get-all-posts", {
         params: {
           followingTags: JSON.stringify(followingTags),
         },
       });
       if (res.data.success) {
+        console.log(res.data.posts);
         setFeedPosts(res.data.posts || []);
         return { success: true };
       } else {
@@ -94,6 +96,57 @@ export const FeedProvider = ({ children, userData }) => {
       }
     } catch (error) {
       setFeedPosts([]);
+      return {
+        success: false,
+        error: error.response?.data || error,
+      };
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  const purchase = async (postId) => {
+    try {
+      setLoading(true);
+      const res = await API.post("/posts/purchase", {
+        postId,
+      });
+
+      if (res.data?.success) {
+        console.log(res.data);
+        // redirect to stripe checkout
+        window.location.href = res.data.url;
+        return { success: true };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data || error,
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const verifyPayment = async (sessionId, postId) => {
+    try {
+      setLoading(true);
+      const res = await API.post("/posts/verify-payment", {
+        sessionId,
+        postId,
+      });
+      if (res.data?.success) {
+        setUserData((userData) => ({
+          ...userData,
+          paidForPosts: [...userData.paidForPosts, postId],
+        }));
+        return { success: true };
+      } else {
+        throw new Error(res.data?.message);
+      }
+    } catch (error) {
       return {
         success: false,
         error: error.response?.data || error,
@@ -192,6 +245,23 @@ export const FeedProvider = ({ children, userData }) => {
     }
   };
 
+  const likeOrDislikePost = async (postId) => {
+    try {
+      const res = await API.patch(`/posts/like-or-dislike`, {
+        postId,
+      });
+
+      if (res.data?.success) {
+        getPosts(userData?.followingTags || []);
+        return { success: true };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      return { success: false, error: error.response?.data || error };
+    }
+  };
+
   const searchPosts = async (query) => {
     try {
       setLoading(true);
@@ -240,8 +310,11 @@ export const FeedProvider = ({ children, userData }) => {
         deletePost,
         getPost,
         getPosts,
+        purchase,
+        verifyPayment,
         addComment,
         deleteComment,
+        likeOrDislikePost,
         searchPosts,
         getMyPosts,
         feedPosts,
