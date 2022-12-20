@@ -23,10 +23,10 @@ function Nav() {
   // eslint-disable-next-line no-unused-vars
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+  const navigate = useNavigate();
+
   const { userData, logout } = useContext(UserContext);
   const { searchPosts } = useContext(FeedContext);
-
-  const navigate = useNavigate();
 
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [query, setQuery] = useState("");
@@ -220,12 +220,13 @@ function Nav() {
               {settings.map((setting, index) => (
                 <MenuItem
                   key={index}
-                  onClick={handleCloseUserMenu}
+                  onClick={(e) => {
+                    setting.handler(e);
+                    handleCloseUserMenu();
+                  }}
                   sx={setting.style}
                 >
-                  <Typography variant="h6" onClick={setting.handler}>
-                    {setting.name}
-                  </Typography>
+                  <Typography variant="h6">{setting.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
