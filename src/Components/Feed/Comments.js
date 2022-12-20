@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import Comment from "./Comment";
 
@@ -9,15 +9,15 @@ export default function Comments({ postID, comments = [] }) {
 
   if (comments.length <= 5) {
     return (
-      <>
+      <Grid container flexDirection="column">
         {comments.map((comment, index) => (
           <Comment key={index} comment={comment} postID={postID} />
         ))}
-      </>
+      </Grid>
     );
   }
   return (
-    <>
+    <Grid container flexDirection="column">
       {showAllComments
         ? comments.map((comment, index) => (
             <Comment key={index} comment={comment} postID={postID} />
@@ -30,7 +30,6 @@ export default function Comments({ postID, comments = [] }) {
       <Typography
         variant="outlined"
         onClick={() => setShowAllComments(!showAllComments)}
-        gutterBottom
         sx={{
           cursor: "pointer",
           color: "primary.main",
@@ -38,6 +37,6 @@ export default function Comments({ postID, comments = [] }) {
       >
         {showAllComments ? "Hide Comments" : "Show All Comments"}
       </Typography>
-    </>
+    </Grid>
   );
 }

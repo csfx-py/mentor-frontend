@@ -196,38 +196,36 @@ function Post({ post }) {
           </Typography>
         </Grid>
       </Grid>
-      <Box>
-        <Comments comments={post?.comments} postID={post?._id} />
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Add a comment"
-            variant="outlined"
-            fullWidth
-            size="small"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            sx={{
-              mt: 1,
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    type="submit"
-                    size="large"
-                    sx={{
-                      mt: 1,
-                    }}
-                    color="primary"
-                  >
-                    <Chat />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </form>
-      </Box>
+      <Comments comments={post?.comments} postID={post?._id} />
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Add a comment"
+          variant="outlined"
+          fullWidth
+          size="small"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          sx={{
+            mt: 1,
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  type="submit"
+                  size="large"
+                  sx={{
+                    mt: 1,
+                  }}
+                  color="primary"
+                >
+                  <Chat />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </form>
     </Paper>
   );
 }
