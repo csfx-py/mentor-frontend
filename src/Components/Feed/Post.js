@@ -16,7 +16,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import { useSnackbar } from "notistack";
 import { useContext, useState } from "react";
 import AvatarImage from "../../Assets/puneet_avatar.jpeg";
@@ -150,6 +149,14 @@ function Post({ post }) {
               </div>
             </>
           ))}
+        {!post.isPaid && (
+          <>
+            <Typography variant="h6" sx={{ my: 1, ml: 1 }}>
+              {post?.title}
+            </Typography>
+            <PostDecsription post={post} userData={userData} />
+          </>
+        )}
       </div>
       <Divider sx={{ my: 1 }} />
       <Grid container justifyContent="space-between" alignItems="center">

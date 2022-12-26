@@ -23,7 +23,7 @@ function Mid({ searched = false, style = {}, allPosts = null }) {
         });
     if (!allPosts) return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData?.followingTags]);
+  }, [userData]);
 
   return (
     <Grid

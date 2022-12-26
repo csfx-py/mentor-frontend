@@ -136,7 +136,6 @@ function Login({ setIsRegistered }) {
           sx={{ color: "primary.main", cursor: "pointer" }}
           onClick={() => setIsRegistered(false)}
         >
-          {" "}
           Register
         </Typography>
       </Typography>

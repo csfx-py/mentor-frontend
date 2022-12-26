@@ -7,7 +7,7 @@ export default function AdminPosts() {
   const { allPosts } = useContext(AdminContext);
 
   useEffect(() => {
-    console.log(allPosts);
+    // console.log(allPosts);
   }, [allPosts]);
 
   return (

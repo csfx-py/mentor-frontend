@@ -177,7 +177,6 @@ function Register({ setIsRegistered }) {
           sx={{ color: "primary.main", cursor: "pointer" }}
           onClick={() => setIsRegistered(true)}
         >
-          {" "}
           Login
         </Typography>
       </Typography>
