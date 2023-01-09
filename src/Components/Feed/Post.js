@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import AvatarImage from "../../Assets/puneet_avatar.jpeg";
 import { FeedContext } from "../../Contexts/FeedContext";
 import { UserContext } from "../../Contexts/UserContext";
@@ -75,14 +76,10 @@ function Post({ post }) {
         <Grid item>
           <Grid container alignItems="center">
             <Avatar src={post?.user?.avatar || AvatarImage} sx={{ mr: 1 }} />
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: "bold",
-              }}
-            >
+
+            <Link to={`/profile/${post?.user?._id}`}>
               {post?.user?.name || "Anonymous User"}
-            </Typography>
+            </Link>
           </Grid>
           {post?.tags &&
             post?.tags.map((tag) => (
@@ -165,7 +162,6 @@ function Post({ post }) {
             onClick={async (e) => {
               e.preventDefault();
               const res = await likeOrDislikePost(post._id);
-              console.log(res);
               if (!res.success)
                 enqueueSnackbar(res.error?.message, { variant: "error" });
             }}
