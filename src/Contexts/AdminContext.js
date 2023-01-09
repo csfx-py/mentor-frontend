@@ -66,6 +66,30 @@ export const AdminProvider = ({ children, userData }) => {
     }
   };
 
+  const deleteUsers = async (userIds) => {
+    try {
+      setLoading(true);
+      const res = await API.delete("/admin/delete-users", {
+        data: { userIds },
+      });
+
+      if (res.data.success) {
+        const resU = await getAllUsers();
+        setAllUsers(resU?.data?.resUsers);
+        return { success: true };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data || error,
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const deletePost = async (postId) => {
     try {
       setLoading(true);
@@ -121,6 +145,7 @@ export const AdminProvider = ({ children, userData }) => {
         getAllUsers,
         deletePost,
         updateTags,
+        deleteUsers,
       }}
     >
       {children}

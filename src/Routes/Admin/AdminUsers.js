@@ -1,4 +1,5 @@
 import {
+  Button,
   Checkbox,
   Chip,
   Grid,
@@ -29,7 +30,7 @@ export default function AdminUsercc() {
   // eslint-disable-next-line no-unused-vars
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const { allUsers, getAllUsers } = useContext(AdminContext);
+  const { allUsers, getAllUsers, deleteUsers } = useContext(AdminContext);
 
   const [users, setUsers] = useState(allUsers);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -65,12 +66,17 @@ export default function AdminUsercc() {
 
     if (!window.confirm("Are you sure you want to delete users?")) return;
 
-    const res = {
-      success: true,
-    };
+    console.log(selectedUsers);
+    const res = await deleteUsers(selectedUsers.map((u) => u?._id));
 
     if (res.success) {
       enqueueSnackbar("Users updated", { variant: "success" });
+      getAllUsers().then((res1) => {
+        if (!res1.success) {
+          enqueueSnackbar(res1?.error?.message, { variant: "error" });
+        }
+      });
+      setSelectedUsers([]);
     } else {
       enqueueSnackbar(res?.error?.message, { variant: "error" });
     }
@@ -78,16 +84,28 @@ export default function AdminUsercc() {
 
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={2} component="form" onSubmit={handleSubmit}>
-        <Grid item xs={12}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Admin Tags
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
+      <Grid
+        container
+        spacing={2}
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ mt: 2 }}
+      >
+        {console.log(users)}
+        <Grid item xs={6}>
           <Typography variant="h6" component="h2" gutterBottom>
             Manage Users
           </Typography>
+        </Grid>
+        <Grid item xs={6} sx={{ textAlign: "right" }}>
+          <Button
+            variant="contained"
+            color="error"
+            type="submit"
+            sx={{ mr: 2 }}
+          >
+            Delete Users
+          </Button>
         </Grid>
 
         <Table size="small">
@@ -152,6 +170,7 @@ export default function AdminUsercc() {
                             p: 1,
                             m: 0.5,
                           }}
+                          key={post._id}
                         >
                           <Typography
                             component={Link}
