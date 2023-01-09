@@ -79,6 +79,28 @@ export const FeedProvider = ({ children, userData }) => {
     }
   };
 
+  const getUserPosts = async (userId) => {
+    try {
+      setLoading(true);
+      const res = await API.get(`/posts/get-user-posts`, {
+        params: {
+          userId,
+        },
+      });
+
+      if (res.data.success) {
+        setFeedPosts(res.data.posts || []);
+        return { success: true, user: res.data?.user };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getPosts = async (followingTags) => {
     try {
       // setLoading(true);
@@ -88,7 +110,6 @@ export const FeedProvider = ({ children, userData }) => {
         },
       });
       if (res.data.success) {
-        console.log(res.data.posts);
         setFeedPosts(res.data.posts || []);
         return { success: true };
       } else {
@@ -113,7 +134,6 @@ export const FeedProvider = ({ children, userData }) => {
       });
 
       if (res.data?.success) {
-        console.log(res.data);
         // redirect to stripe checkout
         window.location.href = res.data.url;
         return { success: true };
@@ -309,6 +329,7 @@ export const FeedProvider = ({ children, userData }) => {
         createPost,
         deletePost,
         getPost,
+        getUserPosts,
         getPosts,
         purchase,
         verifyPayment,
