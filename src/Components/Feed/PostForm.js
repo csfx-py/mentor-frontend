@@ -4,9 +4,8 @@ import {
   Button,
   Grid,
   IconButton,
-  Paper,
+  Switch,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useContext, useState } from "react";
@@ -156,197 +155,324 @@ function PostForm() {
 
   return (
     <Grid item xs={12} md={6}>
-      <Paper
-        elevation={3}
-        sx={{
-          p: 1,
-        }}
-      >
-        <Typography variant="h5">Create Post</Typography>
-        <form onDragEnter={handleDrag} onSubmit={handleSubmit}>
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <TextField
-                name="title"
-                label="Document title"
-                size="small"
-                fullWidth
-                variant="outlined"
-                value={title}
-                onChange={handleTextChange}
-                sx={{
-                  mb: 1,
-                }}
+      <form onDragEnter={handleDrag} onSubmit={handleSubmit}>
+        <TextField
+          name="title"
+          label="Document title"
+          size="small"
+          fullWidth
+          variant="outlined"
+          value={title}
+          onChange={handleTextChange}
+          sx={{
+            mb: 1,
+          }}
+        />
+        <TextField
+          name="description"
+          label="Document description"
+          multiline
+          rows={4}
+          fullWidth
+          variant="outlined"
+          value={description}
+          onChange={handleTextChange}
+          sx={{
+            mb: 1,
+          }}
+        />
+        {/* file input with drag and drop */}
+        <Grid container spacing={1}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              pt: "16px !important",
+            }}
+          >
+            <div
+              onDragEnter={handleDrag}
+              onDragOver={handleDrag}
+              onDragLeave={handleDrag}
+              onDrop={handleDrop}
+              style={dragging ? draggedStyle : {}}
+            >
+              <input
+                type="file"
+                id="file"
+                multiple
+                onChange={handleFileChange}
+                style={{ display: "none" }}
               />
-            </Grid>
-            <Grid item xs={3}>
-              Is the post paid?
-              <IconButton
-                variant="text"
-                onClick={() => setIsPaid(!isPaid)}
-                size="large"
+              <label htmlFor="file">
+                <Button
+                  variant="raised"
+                  component="span"
+                  fullWidth
+                  sx={{
+                    p: 1,
+                    pt: 2,
+                    pb: 3,
+                    border: "2px dashed #ccc",
+
+                    "&:focus": {
+                      border: "2px dashed #000",
+                      backgroundColor: "rgba(0,0,0,.05)",
+                    },
+                  }}
+                >
+                  Upload Files
+                </Button>
+              </label>
+            </div>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Autocomplete
+              sx={{
+                mt: 1,
+              }}
+              multiple
+              id="tags-outlined"
+              options={tagOptions || []}
+              getOptionLabel={(option) => option.name}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField {...params} label="Tags" placeholder="Tags" />
+              )}
+              value={tags}
+              onChange={(e, value) => {
+                setTags(value);
+              }}
+            />
+          </Grid>
+        </Grid>
+        {files.length > 0 && (
+          <Grid
+            container
+            spacing={1}
+            sx={{
+              p: 0,
+              mt: 1,
+            }}
+          >
+            {files.map((file) => (
+              <Grid
+                item
+                key={file.name}
                 sx={{
-                  borderRadius: 5,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  p: 2,
+                  border: "1px solid #ccc",
+                  borderRadius: 10,
+                  backgroundColor: "rgba(0,0,0,.05)",
+                  m: 1,
                 }}
               >
-                {isPaid ? (
-                  <>
-                    <Paid color="success" />
-                    Yes
-                  </>
-                ) : (
-                  <>
-                    <Paid color="error" />
-                    No
-                  </>
-                )}
-              </IconButton>
-            </Grid>
-            {isPaid && (
-              <Grid item xs={3}>
-                <TextField
-                  name="price"
-                  type="number"
-                  label="Price"
+                {file.name}
+                <IconButton
                   size="small"
-                  fullWidth
-                  variant="outlined"
-                  value={price}
-                  onChange={handleTextChange}
-                  sx={{
-                    mb: 1,
+                  onClick={() => {
+                    setFiles(files.filter((f) => f.name !== file.name));
                   }}
-                />
+                >
+                  <Delete
+                    sx={{
+                      color: "red",
+                    }}
+                  />
+                </IconButton>
               </Grid>
-            )}
+            ))}
           </Grid>
+        )}
+        Is the post paid?
+        <Switch
+          checked={isPaid}
+          onChange={(e) => {
+            setIsPaid(e.target.checked);
+          }}
+          value="isPaid"
+          color="primary"
+        />
+        {isPaid && (
           <TextField
-            name="description"
-            label="Document description"
-            multiline
-            rows={4}
+            name="price"
+            type="number"
+            label="Price"
+            size="small"
             fullWidth
             variant="outlined"
-            value={description}
+            value={price}
             onChange={handleTextChange}
             sx={{
               mb: 1,
             }}
           />
-          {/* file input with drag and drop */}
-          <Grid container spacing={1}>
-            <Grid
-              item
-              xs={12}
-              md={6}
-              sx={{
-                pt: "16px !important",
-              }}
-            >
-              <div
-                onDragEnter={handleDrag}
-                onDragOver={handleDrag}
-                onDragLeave={handleDrag}
-                onDrop={handleDrop}
-                style={dragging ? draggedStyle : {}}
-              >
-                <input
-                  type="file"
-                  id="file"
-                  multiple
-                  onChange={handleFileChange}
-                  style={{ display: "none" }}
-                />
-                <label htmlFor="file">
-                  <Button
-                    variant="raised"
-                    component="span"
-                    fullWidth
-                    sx={{
-                      p: 1,
-                      pt: 2,
-                      pb: 3,
-                      border: "2px dashed #ccc",
-
-                      "&:focus": {
-                        border: "2px dashed #000",
-                        backgroundColor: "rgba(0,0,0,.05)",
-                      },
-                    }}
-                  >
-                    Upload Files
-                  </Button>
-                </label>
-              </div>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Autocomplete
-                sx={{
-                  mt: 1,
-                }}
-                multiple
-                id="tags-outlined"
-                options={tagOptions || []}
-                getOptionLabel={(option) => option.name}
-                filterSelectedOptions
-                renderInput={(params) => (
-                  <TextField {...params} label="Tags" placeholder="Tags" />
-                )}
-                value={tags}
-                onChange={(e, value) => {
-                  setTags(value);
-                }}
-              />
-            </Grid>
-          </Grid>
-          {files.length > 0 && (
-            <Grid
-              container
-              spacing={1}
-              sx={{
-                p: 0,
-                mt: 1,
-              }}
-            >
-              {files.map((file) => (
-                <Grid
-                  item
-                  key={file.name}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    p: 2,
-                    border: "1px solid #ccc",
-                    borderRadius: 10,
-                    backgroundColor: "rgba(0,0,0,.05)",
-                    m: 1,
-                  }}
-                >
-                  {file.name}
-                  <IconButton
-                    size="small"
-                    onClick={() => {
-                      setFiles(files.filter((f) => f.name !== file.name));
-                    }}
-                  >
-                    <Delete
-                      sx={{
-                        color: "red",
-                      }}
-                    />
-                  </IconButton>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-          <Button variant="contained" type="submit" fullWidth sx={{ mt: 1 }}>
-            Submit
-          </Button>
-        </form>
-      </Paper>
+        )}
+        <Button variant="contained" type="submit" fullWidth sx={{ mt: 1 }}>
+          Submit
+        </Button>
+      </form>
     </Grid>
   );
 }
 
 export default PostForm;
+
+// import { useState } from "react";
+// import {
+//   FormControl,
+//   FormLabel,
+//   TextField,
+//   Switch,
+//   FormControlLabel,
+//   Button,
+//   List,
+//   ListItem,
+//   ListItemText,
+//   ListItemSecondaryAction,
+//   IconButton,
+//   Autocomplete,
+// } from "@mui/material";
+// import { useDropzone } from "react-dropzone";
+// import { Delete } from "@mui/icons-material";
+
+// export default function PostForm() {
+//   const [title, setTitle] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [files, setFiles] = useState([]);
+//   const [isPaid, setIsPaid] = useState(false);
+//   const [amount, setAmount] = useState(0);
+
+//   const { getRootProps, getInputProps } = useDropzone({
+//     accept: "image/*",
+//     onDrop: (acceptedFiles) => setFiles(acceptedFiles),
+//   });
+
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     // Send the form data to the server here
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <FormControl
+//         sx={{
+//           mt: 1,
+//         }}
+//         fullWidth
+//       >
+//         <FormLabel>Post Title</FormLabel>
+//         <TextField
+//           required
+//           value={title}
+//           onChange={(event) => setTitle(event.target.value)}
+//         />
+//       </FormControl>
+//       <FormControl
+//         sx={{
+//           mt: 1,
+//         }}
+//         fullWidth
+//       >
+//         <FormLabel>Description</FormLabel>
+//         <TextField
+//           required
+//           multiline
+//           rows={4}
+//           value={description}
+//           onChange={(event) => setDescription(event.target.value)}
+//         />
+//       </FormControl>
+//       <FormControl fullWidth sx={{ mt: 1 }}>
+//         <Autocomplete
+//           sx={{
+//             mt: 1,
+//           }}
+//           multiple
+//           id="tags-outlined"
+//           options={tagOptions || []}
+//           getOptionLabel={(option) => option.name}
+//           filterSelectedOptions
+//           renderInput={(params) => (
+//             <TextField {...params} label="Tags" placeholder="Tags" />
+//           )}
+//           value={tags}
+//           onChange={(e, value) => {
+//             setTags(value);
+//           }}
+//         />
+//       </FormControl>
+
+//       <FormControl
+//         sx={{
+//           mt: 1,
+//           border: "2px dashed #ccc",
+//         }}
+//         fullWidth
+//       >
+//         <FormLabel>Upload Images</FormLabel>
+//         <div {...getRootProps()}>
+//           <input {...getInputProps()} />
+//           {files.length === 0 ? (
+//             <p>Drag 'n' drop some files here, or click to select files</p>
+//           ) : (
+//             <p>{files.length} files selected</p>
+//           )}
+//         </div>
+//       </FormControl>
+//       {files.length > 0 && (
+//         <List>
+//           {files.map((file) => (
+//             <ListItem key={file.name}>
+//               <ListItemText primary={file.name} />
+//               <ListItemSecondaryAction>
+//                 <IconButton
+//                   edge="end"
+//                   aria-label="delete"
+//                   onClick={() => {
+//                     setFiles(files.filter((f) => f.name !== file.name));
+//                   }}
+//                 >
+//                   <Delete />
+//                 </IconButton>
+//               </ListItemSecondaryAction>
+//             </ListItem>
+//           ))}
+//         </List>
+//       )}
+//       <FormControlLabel
+//         control={
+//           <Switch
+//             checked={isPaid}
+//             onChange={(event) => setIsPaid(event.target.checked)}
+//           />
+//         }
+//         label="Is this a paid post?"
+//       />
+//       {isPaid && (
+//         <TextField
+//           required
+//           type="number"
+//           value={amount}
+//           onChange={(event) => setAmount(event.target.value)}
+//           size="small"
+//         />
+//       )}
+//       <Button
+//         type="submit"
+//         variant="contained"
+//         color="primary"
+//         sx={{
+//           mt: 1,
+//           ml: 1,
+//         }}
+//       >
+//         Submit
+//       </Button>
+//     </form>
+//   );
+// }
