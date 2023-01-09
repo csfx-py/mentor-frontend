@@ -161,6 +161,26 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const followOrUnfollow = async (followId) => {
+    try {
+      setLoading(true);
+      const res = await API.put("/user/follow", {
+        followId,
+      });
+
+      if (res.data?.success) {
+        setUserData(res.data.user);
+        return { success: true };
+      } else {
+        throw new Error(res.data.message);
+      }
+    } catch (error) {
+      return { success: false, error: error.response?.data || error };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -174,6 +194,7 @@ export const UserProvider = ({ children }) => {
         updateAvatar,
         editUserData,
         changePassword,
+        followOrUnfollow,
       }}
     >
       {children}
