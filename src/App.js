@@ -21,6 +21,7 @@ import { mentorTheme } from "./Theme";
 import PostNotFound from "./Routes/PostNotFound";
 import AdminPosts from "./Routes/Admin/AdminPosts";
 import Payment from "./Routes/Payment";
+import UserProfile from "./Routes/UserProfile";
 
 function App() {
   const { loading } = useContext(LoadingContext);
@@ -108,6 +109,18 @@ function App() {
                     user ? (
                       <ComponentWithNav>
                         <Profile />
+                      </ComponentWithNav>
+                    ) : (
+                      <Navigate to="/auth" state={pathname} />
+                    )
+                  }
+                />
+                <Route
+                  path="/profile/:userId"
+                  element={
+                    user ? (
+                      <ComponentWithNav>
+                        <UserProfile />
                       </ComponentWithNav>
                     ) : (
                       <Navigate to="/auth" state={pathname} />
